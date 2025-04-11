@@ -1,35 +1,33 @@
-// server.js or index.js
+// server.js
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+
 dotenv.config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-require('dotenv').config(); // To use .env file
 
 const app = express();
 const port = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI; // Ensure this is defined in your .env file
+const MONGO_URI = process.env.MONGO_URI;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// Connect to MongoDB
+// MongoDB connection
 mongoose.connect(MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => console.error('❌ Failed to connect to MongoDB', err));
 
 // === Schema Definitions ===
 
-// Subscriber Schema
 const subscriberSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   createdAt: { type: Date, default: Date.now },
 });
 const Subscriber = mongoose.model('Subscriber', subscriberSchema);
 
-// Customer Query Schema
 const customerQuerySchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -38,7 +36,6 @@ const customerQuerySchema = new mongoose.Schema({
 });
 const CustomerQuery = mongoose.model('CustomerQuery', customerQuerySchema);
 
-// Collab Query Schema
 const collabQuerySchema = new mongoose.Schema({
   nameOrBrand: String,
   email: String,
@@ -48,7 +45,6 @@ const collabQuerySchema = new mongoose.Schema({
 });
 const CollabQuery = mongoose.model('CollabQuery', collabQuerySchema);
 
-// Dummy Product Model (add your actual schema if needed)
 const productSchema = new mongoose.Schema({
   name: String,
   price: Number,
@@ -58,7 +54,6 @@ const Product = mongoose.model('Product', productSchema);
 
 // === Routes ===
 
-// Healthy breads route
 app.get('/api/products/healthy-breads', async (req, res) => {
   try {
     const products = await Product.find({ category: 'bread' });
@@ -68,7 +63,6 @@ app.get('/api/products/healthy-breads', async (req, res) => {
   }
 });
 
-// Subscribe route
 app.post('/subscribe', async (req, res) => {
   const { email } = req.body;
   try {
@@ -86,7 +80,6 @@ app.post('/subscribe', async (req, res) => {
   }
 });
 
-// Customer query route
 app.post('/cust-query', async (req, res) => {
   const { name, email, message } = req.body;
   try {
@@ -98,7 +91,6 @@ app.post('/cust-query', async (req, res) => {
   }
 });
 
-// Collaboration query route
 app.post('/collab-query', async (req, res) => {
   const { nameOrBrand, email, typeOfCollaboration, proposal } = req.body;
   try {
@@ -109,8 +101,6 @@ app.post('/collab-query', async (req, res) => {
     res.status(500).json({ message: 'Error saving collaboration query', error });
   }
 });
-
-
 
 // Start Server
 app.listen(port, () => {
