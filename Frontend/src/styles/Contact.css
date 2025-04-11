@@ -1,0 +1,56 @@
+.contact-card {
+    background: linear-gradient(to right, #fdfbfb, #ebedee);
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  }
+  .contact-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .icon-circle {
+    padding: 10px;
+    border-radius: 50%;
+  }
+  
+  .animate-fadein {
+    animation: fadein 1.2s ease-in-out;
+  }
+  
+  .animate-slidein {
+    animation: slidein 1s ease;
+  }
+  
+  @keyframes fadein {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes slidein {
+    0% { opacity: 0; transform: translateX(-50px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  
+
+  .popup-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #198754;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    z-index: 9999;
+    font-size: 18px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeInOut 4s ease-in-out forwards;
+  }
+  
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+    10% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+  }
+  

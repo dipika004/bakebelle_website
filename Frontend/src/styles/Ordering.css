@@ -1,0 +1,18 @@
+.ordering-page {
+    background: linear-gradient(to bottom right, #f0fff0, #e6ffe6); /* fresh green vibe */
+  }
+  
+  .delivery-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .delivery-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 128, 0, 0.1);
+  }
+  
+  .delivery-card img {
+    max-height: 100px;
+    object-fit: contain;
+  }
+  
