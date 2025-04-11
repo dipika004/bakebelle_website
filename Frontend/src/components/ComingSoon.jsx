@@ -20,7 +20,7 @@ export default function ComingSoon() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/subscribe', {
+      const response = await axios.post('https://thejaganbowl.onrender.com/subscribe', {
         email: email
       });
 

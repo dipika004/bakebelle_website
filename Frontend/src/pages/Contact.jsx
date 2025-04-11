@@ -31,7 +31,7 @@ export default function Contact() {
     };
 
     try {
-      await axios.post("http://localhost:5000/cust-query", data);
+      await axios.post("https://thejaganbowl.onrender.com/cust-query", data);
       showPopup("Your query has been sent successfully!");
       form.reset();
     } catch (error) {
@@ -50,7 +50,7 @@ export default function Contact() {
     };
 
     try {
-      await axios.post("http://localhost:5000/collab-query", data);
+      await axios.post("https://thejaganbowl.onrender.com/collab-query", data);
       showPopup("Your collaboration request has been sent!");
       form.reset();
     } catch (error) {

@@ -12,7 +12,10 @@ const port = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://frontend-t3i4.onrender.com', // ✅ your frontend domain
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 // MongoDB connection
