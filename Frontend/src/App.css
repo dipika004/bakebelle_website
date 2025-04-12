@@ -1,0 +1,21 @@
+/* Add this CSS to your global styles (e.g., App.css or any main CSS file) */
+
+/* Ensure the page has a smooth transition when changing */
+.fade-enter {
+    opacity: 0;
+  }
+  
+  .fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in-out;
+  }
+  
+  .fade-exit {
+    opacity: 1;
+  }
+  
+  .fade-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+  }
+  

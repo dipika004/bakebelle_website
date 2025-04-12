@@ -95,7 +95,7 @@ export default function Blogs() {
         {/* Knowledge Section */}
         <div className="knowledge-section row g-4 mb-5 justify-content-center">
           {knowledgeContent.map((item, index) => (
-            <div className="col-12 col-sm-6 col-lg-4" key={index}>
+            <div className="col-6 col-md-4 mb-4" key={index}>
               <div className="card shadow h-100 text-center p-4 border-0 rounded-4 bg-light">
                 <FontAwesomeIcon
                   icon={item.icon}
@@ -112,31 +112,27 @@ export default function Blogs() {
         {/* Blog Grid Section */}
         <h3 className="fw-bold mb-4 text-center text-success">Explore More Insights</h3>
         <div className="row g-4 research-grid justify-content-center">
-            {researchBlogs.map((blog, index) => (
-                <div className="col-12 col-sm-6 col-lg-4" key={index}>
-                    <Link
-                    to={blog.link}
-                    className="text-decoration-none text-dark h-100 d-block"
-                    >
-                        <div className="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
-          <div className="responsive-image-wrapper">
-            <img
-              src={blog.image}
-              alt={blog.title}
-              className="img-fluid"
-            />
-          </div>
-          <div className="card-body">
-            <h5 className="card-title text-dark fw-semibold">
-              {blog.title}
-            </h5>
-          </div>
+          {researchBlogs.map((blog, index) => (
+            <div className="col-6 col-md-4 mb-4" key={index}>
+              <Link to={blog.link} className="text-decoration-none text-dark h-100 d-block">
+                <div className="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+                  <div className="responsive-image-wrapper">
+                    <img
+                      src={blog.image}
+                      alt={blog.title}
+                      className="img-fluid"
+                    />
+                  </div>
+                  <div className="card-body">
+                    <h5 className="card-title text-dark fw-semibold">
+                      {blog.title}
+                    </h5>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
         </div>
-      </Link>
-    </div>
-  ))}
-</div>
-
       </div>
 
       <Footer />
