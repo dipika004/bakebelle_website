@@ -1,0 +1,32 @@
+/* Example Card Styling Refinements */
+.rounded-md {
+  border-radius: 0.75rem; /* Adjust as needed */
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Softer shadow */
+}
+
+.hover\:shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Softer hover shadow */
+  transform: translateY(-2px); /* Subtle lift on hover */
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Example Knowledge Icon Background (Optional) */
+.knowledge-icon-container {
+  background-color: rgba(255, 165, 0, 0.1); /* Light orange background */
+  border-radius: 50%;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.knowledge-icon-container svg {
+  /* Ensure icon size within the container */
+  width: 2rem;
+  height: 2rem;
+}
+

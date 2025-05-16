@@ -1,0 +1,45 @@
+/* Prevent horizontal scroll globally */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Banner styles */
+.banner-slider {
+  width: 100%;
+  overflow: hidden;
+}
+
+.banner-slider-container {
+  display: flex;
+  flex-direction: column; /* or row if you want horizontal slider */
+  width: 100%;
+}
+
+.banner {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.banner-image {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .banner-image {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-image {
+    max-height: 200px;
+  }
+}

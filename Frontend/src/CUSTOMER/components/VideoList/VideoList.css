@@ -1,0 +1,82 @@
+/* Section container for the video list */
+.section-card {
+  padding: 20px;
+}
+
+/* Card for each video */
+.card {
+  width: 100%; /* Ensure the card takes up full width of the grid column */
+  max-width: 100%; /* Limit the maximum width of the card */
+  height: auto; /* Allow height to adjust based on content */
+  border-radius: 8px; /* Rounded corners */
+  overflow: hidden; /* Prevent overflow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: all 0.3s ease; /* Smooth transition on hover */
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Lift the card on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+/* Video styling */
+.card-img-top {
+  width: 100%;
+  height: 80px; /* Reduced video height for smaller cards */
+  object-fit: cover; /* Cover the area without stretching */
+  border-bottom: 2px solid #ddd; /* Separation between video and body */
+}
+
+/* Body content of the card */
+.card-body {
+  padding: 10px; /* Less padding for smaller cards */
+  text-align: center;
+}
+
+/* Card title */
+.card-title {
+  font-size: 16px; /* Reduced font size for smaller cards */
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Card description */
+.card-text {
+  font-size: 12px; /* Reduced font size for description */
+  color: #777;
+  margin-bottom: 0;
+}
+
+/* For the section heading */
+h3 {
+  font-size: 28px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .card-img-top {
+    height: 120px; /* Adjust video height for smaller screens */
+  }
+
+  .col-6 {
+    /* Make two cards per row on smaller screens */
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-img-top {
+    height: 180px; /* Slightly larger video height on medium screens */
+  }
+}
+
+@media (min-width: 992px) {
+  .card-img-top {
+    height: 200px; /* Standard height on larger screens */
+  }
+}

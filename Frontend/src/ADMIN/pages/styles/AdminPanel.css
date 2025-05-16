@@ -1,0 +1,124 @@
+/* Admin Panel Styles */
+.admin-container {
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.admin-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-card {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.input-field, .file-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: white;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.banner-preview img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.divider {
+  border-top: 1px solid #ddd;
+  margin: 30px 0;
+}
+
+.offerings-list {
+  list-style: none;
+  padding: 0;
+}
+
+.offering-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.offering-name {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.d-flex {
+  display: flex;
+  gap: 10px;
+}
+
+.video-preview {
+  margin-top: 10px;
+}
+.video-preview video {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
