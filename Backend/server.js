@@ -8,9 +8,10 @@ const videoRoutes = require('./routes/video');
 const subscribeRoutes = require('./routes/subscribe');
 const sendMessageRoutes = require('./routes/sendMessage');
 const path = require('path');
+require('dotenv').config(); // Load env variables
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080; // fallback if env not set
 
 // Middleware
 app.use(cors());
@@ -26,8 +27,8 @@ app.use('/api/subscribe', subscribeRoutes);
 app.use('/api/send-message', sendMessageRoutes);
 
 // MongoDB Connection
-mongoose.connect('mongodb://127.0.0.1:27017/thejaganbowl')
-  .then(() => console.log('Connected to MongoDB'))
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
 
 // Default route
