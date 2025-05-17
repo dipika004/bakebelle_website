@@ -73,6 +73,10 @@ const PageWithNavbar = () => {
         <Route path="/dipika-2004/view-videos" element={<ProtectedRoute><ViewVideos /></ProtectedRoute>} />
         <Route path="/dipika-2004/videos/edit/:id" element={<ProtectedRoute><EditVideo /></ProtectedRoute>} />
         <Route path="/dipika-2004/send-message" element={<ProtectedRoute><SendMessage /></ProtectedRoute>} />
+
+
+
+        <Route path="*" element={<NotFound />} />
         
       </Routes>
     </>
