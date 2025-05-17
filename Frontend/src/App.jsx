@@ -50,8 +50,7 @@ const PageWithNavbar = () => {
         <Route path="/know-yourself" element={<KnowYourself />} />
 
         {/* Admin Routes */}
-        {/* <Route path="/dipika-2004/login" element={<AdminLogin />} /> */}
-        <Route path="/dipika-2004/login" element={<div>Admin Login Page Works</div>} />
+        <Route path="/dipika-2004/login" element={<AdminLogin />} />
         <Route path="/dipika-2004" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
         <Route path="/dipika-2004/offerings" element={<ProtectedRoute><AdminOfferingPage /></ProtectedRoute>} />
         <Route path="/dipika-2004/offerings/:slug" element={<ProtectedRoute><AdminOfferingPage /></ProtectedRoute>} />
