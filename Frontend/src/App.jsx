@@ -59,6 +59,7 @@ const PageWithNavbar = () => {
         <Route path="/dipika-2004/offerings/:slug" element={<ProtectedRoute><AdminOfferingPage /></ProtectedRoute>} />
         <Route path="/dipika-2004/offerings/:slug/add" element={<ProtectedRoute><AddOffering /></ProtectedRoute>} />
         <Route path="/dipika-2004/offerings/:slug/update" element={<ProtectedRoute><AddOffering /></ProtectedRoute>} />
+        <Route path="/dipika-2004/view-banner" element={<ProtectedRoute><BannerManagement /></ProtectedRoute>} />
 
         {/* Product Routes */}
         <Route path="/dipika-2004/products" element={<ProtectedRoute><AdminProductPage /></ProtectedRoute>} />

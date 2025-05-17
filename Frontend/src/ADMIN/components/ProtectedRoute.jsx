@@ -1,11 +1,17 @@
-// src/ADMIN/components/ProtectedRoute.jsx
 import React from "react";
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem("isAdmin"); // Or use context/auth hook
+  const authData = JSON.parse(sessionStorage.getItem("isAdmin"));
+  const now = new Date().getTime();
 
-  return isAuthenticated === "true" ? children : <Navigate to="/dipika-2004/login" />;
+  // Check if auth data exists and is still valid
+  if (!authData || now > authData.expiry) {
+    sessionStorage.removeItem("isAdmin");
+    return <Navigate to="/dipika-2004/login" />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;

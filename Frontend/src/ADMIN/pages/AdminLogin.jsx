@@ -11,7 +11,10 @@ const AdminLogin = () => {
     const { username, password } = credentials;
 
     if (username === "admin" && password === "123") {
-      localStorage.setItem("isAdmin", "true");
+      const now = new Date().getTime();
+const expiry = now + 30 * 60 * 1000; // 30 minutes
+sessionStorage.setItem("isAdmin", JSON.stringify({ value: true, expiry }));
+      alert("Login successful");
       navigate("/dipika-2004");
     } else {
       alert("Invalid credentials");
