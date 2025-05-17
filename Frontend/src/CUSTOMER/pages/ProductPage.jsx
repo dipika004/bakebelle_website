@@ -10,7 +10,7 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`https://thejaganbowl.onrender.com/api/products/${id}`);
+        const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products/${id}`);
         setProduct(res.data);
       } catch (err) {
         console.error('Error fetching product:', err);
@@ -23,7 +23,7 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchMoreItems = async () => {
       try {
-        const res = await axios.get(`https://thejaganbowl.onrender.com/api/products?category=breads`);
+        const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products?category=breads`);
         setMoreItems(res.data);
       } catch (err) {
         console.error('Error fetching more items:', err);
