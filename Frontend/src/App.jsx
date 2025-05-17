@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
 import Navbar from "./CUSTOMER/components/Navbar/Navbar.jsx"; // Customer Navbar
 import AdminNavbar from "./ADMIN/components/Navbar/AdminNavbar.jsx"; // Admin Navbar
+
 import AdminPanel from './ADMIN/pages/AdminPanel.jsx'; // Admin Panel page
 import OfferingPage from './CUSTOMER/pages/OfferingPage.jsx'; // Customer Offering page
 import AddOffering from './ADMIN/pages/AddOffering.jsx'; // Admin Add Offering page 
@@ -25,61 +27,62 @@ import NotFound from './CUSTOMER/pages/NotFound.jsx';
 const App = () => {
   return (
     <Router>
-      <PageWithNavbar />
+      <MainRouter />
     </Router>
   );
 };
 
-const PageWithNavbar = () => {
+// This component chooses between Admin and Customer routing based on path
+const MainRouter = () => {
   const location = useLocation();
 
-  // Check if the current route is for admin or customer
+  // Check if path starts with /dipika-2004 (admin routes)
   const isAdmin = location.pathname.startsWith('/dipika-2004');
 
-  return (
+  return isAdmin ? <AdminRoutes /> : <CustomerRoutes />;
+};
+
+const CustomerRoutes = () => (
+  <>
+    <Navbar />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/offerings/:slug" element={<OfferingPage />} />
+      <Route path="/product/:id" element={<ProductPage />} />
+      <Route path="/about-us" element={<AboutUs />} />
+      <Route path="/blog" element={<Blogs />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/know-yourself" element={<KnowYourself />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </>
+);
+
+const AdminRoutes = () => (
+  <Router basename="/dipika-2004">
     <>
-      {isAdmin ? <AdminNavbar /> : <Navbar />} {/* Conditionally render Navbar */}
+      <AdminNavbar />
       <Routes>
-        {/* Customer Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/offerings/:slug" element={<OfferingPage />} />
-        <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/blog" element={<Blogs />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/know-yourself" element={<KnowYourself />} />
-
-        {/* Admin Routes */}
-        <Route path="/dipika-2004/login" element={<AdminLogin />} />
-        <Route path="/dipika-2004" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
-        <Route path="/dipika-2004/offerings" element={<ProtectedRoute><AdminOfferingPage /></ProtectedRoute>} />
-        <Route path="/dipika-2004/offerings/:slug" element={<ProtectedRoute><AdminOfferingPage /></ProtectedRoute>} />
-        <Route path="/dipika-2004/offerings/:slug/add" element={<ProtectedRoute><AddOffering /></ProtectedRoute>} />
-        <Route path="/dipika-2004/offerings/:slug/update" element={<ProtectedRoute><AddOffering /></ProtectedRoute>} />
-        <Route path="/dipika-2004/view-banner" element={<ProtectedRoute><BannerManagement /></ProtectedRoute>} />
-
-        {/* Product Routes */}
-        <Route path="/dipika-2004/products" element={<ProtectedRoute><AdminProductPage /></ProtectedRoute>} />
-        <Route path="/dipika-2004/product/:id" element={<ProtectedRoute><AdminProductPage /></ProtectedRoute>} />
-        <Route path="/dipika-2004/product/add" element={<ProtectedRoute><AdminProductPage /></ProtectedRoute>} />
-        <Route path="/dipika-2004/product/:id/update" element={<ProtectedRoute><EditProductPage /></ProtectedRoute>} />
-        <Route path="/dipika-2004/product/:id/delete" element={<ProtectedRoute><AdminProductPage /></ProtectedRoute>} />
-
-        {/* Other Admin Routes */}
-        <Route path="/dipika-2004/banner-management" element={<ProtectedRoute><BannerManagement /></ProtectedRoute>} />
-        <Route path="/dipika-2004/view-videos" element={<ProtectedRoute><ViewVideos /></ProtectedRoute>} />
-        <Route path="/dipika-2004/videos/edit/:id" element={<ProtectedRoute><EditVideo /></ProtectedRoute>} />
-        <Route path="/dipika-2004/send-message" element={<ProtectedRoute><SendMessage /></ProtectedRoute>} />
-        
-
-        
-        {/* 404 Not Found Route */}
+        <Route path="/login" element={<AdminLogin />} />
+        <Route path="/" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
+        <Route path="/offerings" element={<ProtectedRoute><AdminOfferingPage /></ProtectedRoute>} />
+        <Route path="/offerings/:slug" element={<ProtectedRoute><AdminOfferingPage /></ProtectedRoute>} />
+        <Route path="/offerings/:slug/add" element={<ProtectedRoute><AddOffering /></ProtectedRoute>} />
+        <Route path="/offerings/:slug/update" element={<ProtectedRoute><AddOffering /></ProtectedRoute>} />
+        <Route path="/view-banner" element={<ProtectedRoute><BannerManagement /></ProtectedRoute>} />
+        <Route path="/products" element={<ProtectedRoute><AdminProductPage /></ProtectedRoute>} />
+        <Route path="/product/:id" element={<ProtectedRoute><AdminProductPage /></ProtectedRoute>} />
+        <Route path="/product/add" element={<ProtectedRoute><AdminProductPage /></ProtectedRoute>} />
+        <Route path="/product/:id/update" element={<ProtectedRoute><EditProductPage /></ProtectedRoute>} />
+        <Route path="/product/:id/delete" element={<ProtectedRoute><AdminProductPage /></ProtectedRoute>} />
+        <Route path="/banner-management" element={<ProtectedRoute><BannerManagement /></ProtectedRoute>} />
+        <Route path="/view-videos" element={<ProtectedRoute><ViewVideos /></ProtectedRoute>} />
+        <Route path="/videos/edit/:id" element={<ProtectedRoute><EditVideo /></ProtectedRoute>} />
+        <Route path="/send-message" element={<ProtectedRoute><SendMessage /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
-
-        
       </Routes>
     </>
-  );
-};
+  </Router>
+);
 
 export default App;
