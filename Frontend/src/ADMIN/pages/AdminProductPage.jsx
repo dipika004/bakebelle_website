@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import API from '../../../api.js'; // Ensure this is the correct path to your API file
+import axios from 'axios';
 import EditProductPage from './EditProductPage';
 
 const AdminProductPage = () => {
@@ -14,6 +14,7 @@ const AdminProductPage = () => {
     description: '',
     category: '',
     images: [],
+    shoppingLinks: {}, // ✅ added here
   });
   const [newImages, setNewImages] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -21,7 +22,7 @@ const AdminProductPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await API.get(`/api/products/${id}`);
+        const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products/${id}`);
         setProduct(res.data);
         setFormData({
           title: res.data.title,
@@ -29,6 +30,7 @@ const AdminProductPage = () => {
           description: res.data.description,
           category: res.data.category,
           images: res.data.images,
+          shoppingLinks: res.data.shoppingLinks || {}, // ✅ set this
         });
       } catch (err) {
         console.error('Error fetching product:', err);
@@ -43,9 +45,9 @@ const AdminProductPage = () => {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await API.delete(`/api/products/${id}`);
+        await axios.delete(`https://backend-thejaganbowl.onrender.com/api/products/${id}`);
         alert('Product deleted successfully!');
-        navigate('/dipika-2004'); // ✅ Navigate here after successful deletion
+        navigate('/dipika-2004');
       } catch (err) {
         console.error('Error deleting product:', err);
         alert('Failed to delete product.');
@@ -60,6 +62,11 @@ const AdminProductPage = () => {
   if (!product) {
     return <p className="text-center mt-10 text-gray-600">Loading...</p>;
   }
+
+  const { title, price, description, images, shoppingLinks = {} } = product;
+
+  const hasAnyShoppingLink =
+    shoppingLinks.zepto || shoppingLinks.instamart || shoppingLinks.blinkit;
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
@@ -76,16 +83,62 @@ const AdminProductPage = () => {
       ) : (
         <div className="flex flex-col md:flex-row gap-6">
           <img
-            src={product.images[0]}
-            alt={product.title}
+            src={images[0]}
+            alt={title}
             className="w-full md:w-1/2 max-h-96 object-contain rounded-md border border-gray-200"
           />
           <div className="flex flex-col justify-between md:w-1/2">
             <div>
-              <h2 className="text-3xl font-semibold text-gray-900">{product.title}</h2>
-              <p className="mt-2 text-xl text-green-600 font-semibold">Price: ₹{product.price}</p>
-              <p className="mt-4 text-gray-700 whitespace-pre-line">{product.description}</p>
+              <h2 className="text-3xl font-semibold text-gray-900">{title}</h2>
+              <p className="mt-2 text-xl text-green-600 font-semibold">Price: ₹{price}</p>
+              <p className="mt-4 text-gray-700 whitespace-pre-line">{description}</p>
+
+              {/* ✅ Shop from links */}
+              {hasAnyShoppingLink && (
+                <div className="mt-6">
+                  <h5 className="text-lg font-semibold mb-2">Shop from:</h5>
+                  <ul className="list-none space-y-1">
+                    {shoppingLinks.zepto && (
+                      <li>
+                        <a
+                          href={shoppingLinks.zepto}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          Zepto
+                        </a>
+                      </li>
+                    )}
+                    {shoppingLinks.instamart && (
+                      <li>
+                        <a
+                          href={shoppingLinks.instamart}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          Instamart
+                        </a>
+                      </li>
+                    )}
+                    {shoppingLinks.blinkit && (
+                      <li>
+                        <a
+                          href={shoppingLinks.blinkit}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          Blinkit
+                        </a>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              )}
             </div>
+
             <div className="mt-6 flex space-x-4">
               <button
                 onClick={handleEdit}

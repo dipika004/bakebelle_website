@@ -4,7 +4,6 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './BannerSlider.css';
-import API from "../../../api.js"; // Ensure this is the correct path to your API file
 
 const BannerSlider = () => {
   const [banners, setBanners] = useState([]);
@@ -12,7 +11,7 @@ const BannerSlider = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await API.get('/api/banner');
+        const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/banner');
         console.log(response.data); // Check the response here
         setBanners(response.data);
       } catch (error) {

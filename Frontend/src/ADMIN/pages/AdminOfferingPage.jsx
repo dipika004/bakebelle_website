@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API from '../../../api.js'; // Ensure this is the correct path to your API file
+import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 
 const OfferingPage = () => {
@@ -8,7 +8,7 @@ const OfferingPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await API.get(`/api/products?category=${slug.toLowerCase()}`);
+      const response = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products?category=${slug.toLowerCase()}`);
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);

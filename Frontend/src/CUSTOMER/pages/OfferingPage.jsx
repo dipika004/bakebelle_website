@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import API from '../../api'; // Ensure this is the correct path to your API file
 
 const OfferingPage = () => {
   const { slug } = useParams();
@@ -9,8 +8,8 @@ const OfferingPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await API.get(
-        `/api/products?category=${slug.toLowerCase()}`
+      const response = await axios.get(
+        `https://backend-thejaganbowl.onrender.com/api/products?category=${slug.toLowerCase()}`
       );
       console.log('Fetched products:', response.data);
       setProducts(response.data);

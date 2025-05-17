@@ -1,6 +1,6 @@
 // AddOffering.jsx
 import React, { useState } from 'react';
-import API from '../../api'; // Ensure this is the correct path to your API file
+import axios from 'axios';
 
 const AddOffering = () => {
   const [newOffering, setNewOffering] = useState('');
@@ -13,7 +13,7 @@ const AddOffering = () => {
     e.preventDefault();
 
     try {
-      await API.post('/api/offerings', { name: newOffering });
+      await axios.post('https://backend-thejaganbowl.onrender.com/api/offerings', { name: newOffering });
       alert('Offering added successfully!');
       setNewOffering('');
     } catch (error) {

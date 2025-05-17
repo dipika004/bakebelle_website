@@ -42,7 +42,8 @@ const transporter = nodemailer.createTransport({
 router.post('/', upload.single('image'), async (req, res) => {
   try {
     const messageText = req.body.message;
-    const imageUrl = req.file ? req.file.path : null;
+    const imageUrl = req.file?.path || null;
+
 
     // Validate input using messageValidator
     const { error } = messageValidator.validate({
@@ -58,7 +59,6 @@ router.post('/', upload.single('image'), async (req, res) => {
     const newMessage = new Message({
       body: messageText,
       imageUrl,
-      timestamp: new Date(),
     });
 
     await newMessage.save();

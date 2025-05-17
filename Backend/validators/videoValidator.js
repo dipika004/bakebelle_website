@@ -1,10 +1,15 @@
-// validators/videoValidator.js
 const Joi = require('joi');
 
-const videoValidator = Joi.object({
+// For POST (create video)
+const createVideoValidator = Joi.object({
   title: Joi.string().required(),
-  description: Joi.string().optional(),
-  videoUrl: Joi.string().uri().required(),
+  description: Joi.string().allow('', null),
 });
 
-module.exports = videoValidator;
+// For PUT (update video)
+const updateVideoValidator = Joi.object({
+  title: Joi.string().optional(),
+  description: Joi.string().allow('', null).optional(),
+});
+
+module.exports = { createVideoValidator, updateVideoValidator };

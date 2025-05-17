@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import API from '../../api.js'; // Ensure this is the correct path to your API file
+import axios from 'axios';
 
 const BannerManagement = () => {
   const [banners, setBanners] = useState([]);
   const [newBanners, setNewBanners] = useState({});
 
   useEffect(() => {
-    API.get('/api/banner')
+    axios.get('https://backend-thejaganbowl.onrender.com/api/banner')
       .then(response => {
         setBanners(response.data);
         const initialNewBanners = {};
@@ -34,11 +34,11 @@ const BannerManagement = () => {
     formData.append('banner', banner.file);
 
     try {
-      await API.put(`/api/banner/${id}`, formData, {
+      await axios.put(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Banner updated successfully!');
-      const response = await API.get('/api/banner');
+      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/banner');
       setBanners(response.data);
     } catch (error) {
       console.error('Error updating banner:', error);
@@ -50,7 +50,7 @@ const BannerManagement = () => {
     if (!window.confirm("Are you sure you want to delete this banner?")) return;
 
     try {
-      await API.delete(`/api/banner/${id}`);
+      await axios.delete(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`);
       alert('Banner deleted successfully!');
       setBanners(banners.filter(b => b._id !== id));
       const updated = { ...newBanners };

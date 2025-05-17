@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import API from '../../api';
+import axios from 'axios';
 
 const SendMessage = () => {
   const [message, setMessage] = useState('');
@@ -23,7 +23,7 @@ const SendMessage = () => {
     }
 
     try {
-      const response = await API.post('/api/send-message', formData, {
+      const response = await axios.post('https://backend-thejaganbowl.onrender.com/api/send-message', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

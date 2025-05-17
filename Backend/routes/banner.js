@@ -44,7 +44,7 @@ router.post('/', upload, async (req, res) => {
       return res.status(400).json({ message: 'Please upload a banner image' });
     }
 
-    const { error } = bannerValidator.validate({ image: req.file.path, title: req.body.title });
+    const { error } = bannerValidator.validate({ image: req.file.path, title: req.body.title , public_id:req.file.filename});
     if (error) return res.status(400).json({ message: error.details[0].message });
 
     const banner = new Banner({
@@ -76,7 +76,8 @@ router.put('/:id', upload, async (req, res) => {
 
     banner.title = req.body.title || banner.title;
 
-    const { error } = bannerValidator.validate({ image: banner.image, title: banner.title });
+    const { error } = bannerValidator.validate({ image: req.file.path, title: req.body.title });
+
     if (error) return res.status(400).json({ message: error.details[0].message });
 
     await banner.save();

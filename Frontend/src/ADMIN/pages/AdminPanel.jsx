@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API from '../../../api.js'; // Ensure this is the correct path to your API file
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './styles/AdminPanel.css';
 
@@ -27,7 +27,7 @@ const AdminPanel = () => {
 
   const fetchOfferings = async () => {
     try {
-      const response = await API.get('/api/offerings');
+      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/offerings');
       setOfferings(response.data);
     } catch (error) {
       console.error('Error fetching offerings:', error);
@@ -73,7 +73,7 @@ const AdminPanel = () => {
     }
 
     try {
-      await API.post('/api/products', formData, {
+      await axios.post('https://backend-thejaganbowl.onrender.com/api/products', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Product added!');
@@ -93,7 +93,7 @@ const AdminPanel = () => {
   const addOffering = async () => {
     if (newOffering.trim()) {
       try {
-        await API.post('/api/offerings', { name: newOffering });
+        await axios.post('https://backend-thejaganbowl.onrender.com/api/offerings', { name: newOffering });
         setNewOffering('');
         fetchOfferings();
       } catch (error) {
@@ -106,7 +106,7 @@ const AdminPanel = () => {
     const newName = prompt('Enter new name:', name);
     if (newName) {
       try {
-        await API.put(`/api/offerings/${id}`, { name: newName });
+        await axios.put(`https://backend-thejaganbowl.onrender.com/api/offerings/${id}`, { name: newName });
         fetchOfferings();
       } catch (error) {
         console.error('Error updating offering:', error);
@@ -119,7 +119,7 @@ const AdminPanel = () => {
     if (!confirmDelete) return;
 
     try {
-      await API.delete(`/api/offerings/${id}`);
+      await axios.delete(`https://backend-thejaganbowl.onrender.com/api/offerings/${id}`);
       alert("Offering and related products deleted successfully!");
       fetchOfferings();
     } catch (error) {
@@ -141,7 +141,7 @@ const AdminPanel = () => {
     formData.append('banner', banner);
 
     try {
-      await API.post('/api/banner', formData, {
+      await axios.post('https://backend-thejaganbowl.onrender.com/api/banner', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Banner uploaded successfully!');
@@ -177,7 +177,7 @@ const AdminPanel = () => {
     formData.append('description', videoData.description);
 
     try {
-      await API.post('/api/video', formData, {
+      await axios.post('https://backend-thejaganbowl.onrender.com/api/video', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Video uploaded successfully!');
@@ -192,7 +192,7 @@ const AdminPanel = () => {
 
   const fetchVideos = async () => {
   try {
-    const response = await API.get(`/api/video/${id}`);
+    const response = await axios.get(`https://backend-thejaganbowl.onrender.com/api/video/${_id}`);
     setVideos(response.data);  // Set the videos state to display
   } catch (error) {
     console.error('Error fetching videos:', error);

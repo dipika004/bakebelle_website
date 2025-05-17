@@ -3,8 +3,9 @@ const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const Video = require('../models/Video');
+const { createVideoValidator, updateVideoValidator } = require('../validators/videoValidator');
+
 const router = express.Router();
-const videoValidator = require('../validators/videoValidator');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -14,7 +15,7 @@ cloudinary.config({
 
 // Configure Cloudinary storage for video upload
 const videoStorage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+  cloudinary,
   params: {
     folder: 'product_videos',
     resource_type: 'video',
@@ -24,26 +25,13 @@ const videoStorage = new CloudinaryStorage({
 
 const videoUpload = multer({
   storage: videoStorage,
-  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB size limit
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
 }).single('videoFile');
 
-// Middleware to handle multer errors
-function multerErrorHandler(err, req, res, next) {
-  if (err instanceof multer.MulterError) {
-    // Multer-specific errors
-    return res.status(400).json({ message: err.message });
-  } else if (err) {
-    // Other unknown errors
-    return res.status(500).json({ message: 'File upload error', error: err.message });
-  }
-  next();
-}
-
-// POST video upload
+// POST upload video
 router.post('/', (req, res) => {
-  videoUpload(req, res, async function (err) {
+  videoUpload(req, res, async (err) => {
     if (err) {
-      // Multer errors handled here
       if (err instanceof multer.MulterError) {
         return res.status(400).json({ message: err.message });
       }
@@ -54,7 +42,7 @@ router.post('/', (req, res) => {
       const { title, description } = req.body;
 
       // Validate input fields
-      const { error } = videoValidator({ title, description });
+      const { error } = createVideoValidator.validate({ title, description });
       if (error) {
         return res.status(400).json({ message: error.details[0].message });
       }
@@ -63,18 +51,70 @@ router.post('/', (req, res) => {
         return res.status(400).json({ message: 'Video file is required.' });
       }
 
+      // Save video data to DB
       const newVideo = new Video({
         title,
         description,
         videoUrl: req.file.path,
-        publicId: req.file.filename, // Save Cloudinary public ID
+        publicId: req.file.filename,
       });
 
       await newVideo.save();
-      res.status(201).json(newVideo);
+      return res.status(201).json(newVideo);
     } catch (error) {
       console.error('Error uploading video:', error);
-      res.status(500).json({ message: 'Error uploading video' });
+      return res.status(500).json({ message: 'Error uploading video' });
+    }
+  });
+});
+
+// PUT update video (metadata + optional new file)
+router.put('/:id', (req, res) => {
+  videoUpload(req, res, async (err) => {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(400).json({ message: err.message });
+      }
+      return res.status(500).json({ message: 'File upload error', error: err.message });
+    }
+
+    console.log('req.file:', req.file);
+    console.log('req.body:', req.body);
+
+    try {
+      const { title, description } = req.body;
+
+      // Validate input fields (optional fields)
+      const { error } = updateVideoValidator.validate({ title, description });
+      if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+      }
+
+      const video = await Video.findById(req.params.id);
+      if (!video) {
+        return res.status(404).json({ message: 'Video not found' });
+      }
+
+      // If new video file is uploaded, delete old from Cloudinary and update
+      if (req.file) {
+        // Delete old video from Cloudinary
+        await cloudinary.uploader.destroy(video.publicId, { resource_type: 'video' });
+
+        // Update with new video info
+        video.videoUrl = req.file.path;
+        video.publicId = req.file.filename;
+      }
+
+      // Update text fields if provided
+      if (title !== undefined) video.title = title;
+      if (description !== undefined) video.description = description;
+
+      await video.save();
+
+      res.json(video);
+    } catch (error) {
+      console.error('Error updating video:', error);
+      res.status(500).json({ message: 'Error updating video' });
     }
   });
 });
@@ -90,88 +130,36 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET a single video by ID
+// GET video by ID
 router.get('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
-    const video = await Video.findById(id);
-
+    const video = await Video.findById(req.params.id);
     if (!video) {
       return res.status(404).json({ message: 'Video not found' });
     }
-
-    res.status(200).json(video);
+    res.json(video);
   } catch (error) {
     console.error('Error fetching video:', error);
     res.status(500).json({ message: 'Error fetching video' });
   }
 });
 
-// DELETE a video
+// DELETE video
 router.delete('/:id', async (req, res) => {
   try {
-    const { id } = req.params;
-    const video = await Video.findByIdAndDelete(id);
-
+    const video = await Video.findByIdAndDelete(req.params.id);
     if (!video) {
       return res.status(404).json({ message: 'Video not found' });
     }
 
-    // Delete video from Cloudinary by publicId, specify resource_type video
+    // Delete video from Cloudinary
     await cloudinary.uploader.destroy(video.publicId, { resource_type: 'video' });
 
-    res.status(200).json({ message: 'Video deleted successfully' });
+    res.json({ message: 'Video deleted successfully' });
   } catch (error) {
     console.error('Error deleting video:', error);
     res.status(500).json({ message: 'Error deleting video' });
   }
-});
-
-// UPDATE a video
-router.put('/:id', (req, res) => {
-  videoUpload(req, res, async function (err) {
-    if (err) {
-      if (err instanceof multer.MulterError) {
-        return res.status(400).json({ message: err.message });
-      }
-      return res.status(500).json({ message: 'File upload error', error: err.message });
-    }
-
-    try {
-      const { id } = req.params;
-      const { title, description } = req.body;
-
-      // Validate at least one field present
-      if (!title && !description && !req.file) {
-        return res.status(400).json({ message: 'No fields to update.' });
-      }
-
-      // Validate fields if provided
-      const { error } = videoValidator({ title: title || '', description: description || '' });
-      if (error && (title || description)) {
-        return res.status(400).json({ message: error.details[0].message });
-      }
-
-      const updateFields = {};
-      if (title) updateFields.title = title;
-      if (description) updateFields.description = description;
-      if (req.file) {
-        updateFields.videoUrl = req.file.path;
-        updateFields.publicId = req.file.filename;
-      }
-
-      const updatedVideo = await Video.findByIdAndUpdate(id, updateFields, { new: true });
-
-      if (!updatedVideo) {
-        return res.status(404).json({ message: 'Video not found' });
-      }
-
-      res.status(200).json(updatedVideo);
-    } catch (error) {
-      console.error('Error updating video:', error);
-      res.status(500).json({ message: 'Error updating video' });
-    }
-  });
 });
 
 module.exports = router;

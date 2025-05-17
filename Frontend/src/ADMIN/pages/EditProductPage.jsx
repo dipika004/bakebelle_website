@@ -1,5 +1,5 @@
 import React from 'react';
-import API from '../../../api.js'; // Ensure this is the correct path to your API file
+import axios from 'axios';
 
 const EditProductPage = ({
   formData,
@@ -32,8 +32,8 @@ const EditProductPage = ({
         formToSend.append('images', file);
       });
 
-      const res = await API.put(
-        `/api/products/${id}`,
+      const res = await axios.put(
+        `https://backend-thejaganbowl.onrender.com/api/products/${id}`,
         formToSend,
         {
           headers: { 'Content-Type': 'multipart/form-data' },

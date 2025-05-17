@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import logo from '../../../assets/logo.png';
 import SearchBar from "../../components/SearchBar/SearchBar";
-import API from '../../../api.js'; // Ensure this is the correct path to your API file
 
 const Navbar = () => {
   const [offerings, setOfferings] = useState([]);
@@ -12,11 +12,11 @@ const Navbar = () => {
   const offeringsRef = useRef(null);
 
   useEffect(() => {
-    API.get('/api/offerings')
+    axios.get('https://backend-thejaganbowl.onrender.com/api/offerings')
       .then(response => setOfferings(response.data))
       .catch(error => console.error('Error fetching offerings:', error));
 
-    API.get('/api/products')
+    axios.get('https://backend-thejaganbowl.onrender.com/api/products')
       .then(response => setAllProducts(response.data))
       .catch(error => console.error('Error fetching products:', error));
   }, []);

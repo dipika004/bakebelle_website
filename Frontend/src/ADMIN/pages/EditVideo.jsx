@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import API from '../../../api.js'; // Ensure this is the correct path to your API file
+import axios from 'axios';
 
 const EditVideo = () => {
   const { id } = useParams();
@@ -16,7 +16,7 @@ const EditVideo = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    API.get(`/api/video/${id}`)
+    axios.get(`https://backend-thejaganbowl.onrender.com/api/video/${id}`)
       .then(response => {
         const { title, description } = response.data;
         setVideoData({ title, description });
@@ -48,7 +48,7 @@ const EditVideo = () => {
     }
 
     try {
-      await API.put(`/api/video/${id}`, formData, {
+      await axios.put(`https://backend-thejaganbowl.onrender.com/api/video/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

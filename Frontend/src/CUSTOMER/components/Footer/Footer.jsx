@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram, faFacebook, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import axios from 'axios';
-import API from '../../../api.js'; // Ensure this is the correct path to your API file
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -21,7 +20,7 @@ export default function Footer() {
     }
 
     try {
-      const response = await API.post('/api/subscribe', { email });
+      const response = await axios.post('https://backend-thejaganbowl.onrender.com/api/subscribe', { email });
       setMessage(response.data.message);
       setMessageClass('text-green-600');
 
@@ -48,7 +47,7 @@ export default function Footer() {
 
   const handleVerifyCode = async (code) => {
     try {
-      const response = await API.post('/api/subscribe/verify', {
+      const response = await axios.post('https://backend-thejaganbowl.onrender.com/api/subscribe/verify', {
         email,
         code
       });
