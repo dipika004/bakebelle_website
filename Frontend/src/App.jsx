@@ -49,9 +49,6 @@ const PageWithNavbar = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/know-yourself" element={<KnowYourself />} />
 
-        {/* 404 Not Found Route */}
-        <Route path="*" element={<NotFound />} />
-
         {/* Admin Routes */}
         <Route path="/dipika-2004/login" element={<AdminLogin />} />
         <Route path="/dipika-2004" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
@@ -73,10 +70,12 @@ const PageWithNavbar = () => {
         <Route path="/dipika-2004/view-videos" element={<ProtectedRoute><ViewVideos /></ProtectedRoute>} />
         <Route path="/dipika-2004/videos/edit/:id" element={<ProtectedRoute><EditVideo /></ProtectedRoute>} />
         <Route path="/dipika-2004/send-message" element={<ProtectedRoute><SendMessage /></ProtectedRoute>} />
+        
 
-
-
+        
+        {/* 404 Not Found Route */}
         <Route path="*" element={<NotFound />} />
+
         
       </Routes>
     </>

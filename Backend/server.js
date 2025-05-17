@@ -14,9 +14,12 @@ const app = express();
 const port = process.env.PORT || 8080; // fallback if env not set
 
 // Middleware
-app.use(cors());
+app.use(cors({
+   origin: ['http://localhost:5173', 'https://thejaganbowl.onrender.com']
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // Routes
 app.use('/api/offerings', offeringsRoutes);
