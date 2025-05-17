@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../../../api.js'; // Ensure this is the correct path to your API file
 import EditProductPage from './EditProductPage';
 
 const AdminProductPage = () => {
@@ -21,7 +21,7 @@ const AdminProductPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:8080/api/products/${id}`);
+        const res = await API.get(`/api/products/${id}`);
         setProduct(res.data);
         setFormData({
           title: res.data.title,
@@ -43,7 +43,7 @@ const AdminProductPage = () => {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await axios.delete(`http://localhost:8080/api/products/${id}`);
+        await API.delete(`/api/products/${id}`);
         alert('Product deleted successfully!');
         navigate('/dipika-2004'); // ✅ Navigate here after successful deletion
       } catch (err) {

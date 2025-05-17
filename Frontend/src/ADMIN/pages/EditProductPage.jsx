@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import API from '../../../api.js'; // Ensure this is the correct path to your API file
 
 const EditProductPage = ({
   formData,
@@ -32,8 +32,8 @@ const EditProductPage = ({
         formToSend.append('images', file);
       });
 
-      const res = await axios.put(
-        `http://localhost:8080/api/products/${id}`,
+      const res = await API.put(
+        `/api/products/${id}`,
         formToSend,
         {
           headers: { 'Content-Type': 'multipart/form-data' },

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../../../api.js'; // Ensure this is the correct path to your API file
 
 const VideoList = () => {
   const [videos, setVideos] = useState([]);
@@ -7,7 +7,7 @@ const VideoList = () => {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/video');
+      const response = await API.get('/api/video');
       setVideos(response.data);
     } catch (error) {
       console.error('Error fetching videos:', error);

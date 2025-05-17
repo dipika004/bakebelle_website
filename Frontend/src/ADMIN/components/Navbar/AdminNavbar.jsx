@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../../../api.js'; // Ensure this is the correct path to your API file
 import logo from '../../../assets/logo.png';
 
 const Navbar = () => {
@@ -23,8 +23,8 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/offerings')
+    API
+      .get('/api/offerings')
       .then((res) => setOfferings(res.data))
       .catch((err) => console.error(err));
   }, []);

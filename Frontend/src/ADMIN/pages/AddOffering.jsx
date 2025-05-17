@@ -1,6 +1,6 @@
 // AddOffering.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
+import API from '../../api'; // Ensure this is the correct path to your API file
 
 const AddOffering = () => {
   const [newOffering, setNewOffering] = useState('');
@@ -13,7 +13,7 @@ const AddOffering = () => {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:8080/api/offerings', { name: newOffering });
+      await API.post('/api/offerings', { name: newOffering });
       alert('Offering added successfully!');
       setNewOffering('');
     } catch (error) {

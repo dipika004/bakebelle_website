@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import API from '../../api';
 
 const SendMessage = () => {
   const [message, setMessage] = useState('');
@@ -23,7 +23,7 @@ const SendMessage = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/api/send-message', formData, {
+      const response = await API.post('/api/send-message', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

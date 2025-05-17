@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../../../api.js'; // Ensure this is the correct path to your API file
 
 const EditVideo = () => {
   const { id } = useParams();
@@ -16,7 +16,7 @@ const EditVideo = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/video/${id}`)
+    API.get(`/api/video/${id}`)
       .then(response => {
         const { title, description } = response.data;
         setVideoData({ title, description });
@@ -48,7 +48,7 @@ const EditVideo = () => {
     }
 
     try {
-      await axios.put(`http://localhost:8080/api/video/${id}`, formData, {
+      await API.put(`/api/video/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

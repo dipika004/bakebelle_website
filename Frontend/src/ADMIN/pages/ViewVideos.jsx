@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../../../api.js'; // Ensure this is the correct path to your API file
 import { Link } from 'react-router-dom';
 
 const ViewVideos = () => {
@@ -9,7 +9,7 @@ const ViewVideos = () => {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/video');
+      const response = await API.get('/api/video');
       setVideos(response.data);
       setLoading(false);
     } catch (err) {
@@ -27,7 +27,7 @@ const ViewVideos = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:8080/api/video/${id}`);
+      await API.delete(`/api/video/${id}`);
       setVideos(videos.filter(video => video._id !== id));
       alert('Video deleted successfully!');
     } catch (err) {

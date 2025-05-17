@@ -3,6 +3,7 @@ import BannerSlider from '../components/Banner/BannerSlider';
 import VideoList from '../components/VideoList/VideoList';
 import axios from 'axios';
 import Footer from '../components/Footer/Footer';
+import API from "../../api" // Ensure this is the correct path to your API file
 
 const Home = () => {
   const [email, setEmail] = useState('');
@@ -20,7 +21,7 @@ const Home = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/api/subscribe', { email });
+      const response = await API.post('/api/subscribe', { email });
       console.log('Subscribe response:', response.data); // debug
 
       // If backend sends success, show success message
@@ -53,7 +54,7 @@ const Home = () => {
 
   const handleVerifyCode = async (enteredCode) => {
     try {
-      const response = await axios.post('http://localhost:8080/api/subscribe/verify', {
+      const response = await API.post('/api/subscribe/verify', {
         email,
         code: enteredCode,
       });

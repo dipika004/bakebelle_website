@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../../api.js'; // Ensure this is the correct path to your API file
 
 const BannerManagement = () => {
   const [banners, setBanners] = useState([]);
   const [newBanners, setNewBanners] = useState({});
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/banner')
+    API.get('/api/banner')
       .then(response => {
         setBanners(response.data);
         const initialNewBanners = {};
@@ -34,11 +34,11 @@ const BannerManagement = () => {
     formData.append('banner', banner.file);
 
     try {
-      await axios.put(`http://localhost:8080/api/banner/${id}`, formData, {
+      await API.put(`/api/banner/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Banner updated successfully!');
-      const response = await axios.get('http://localhost:8080/api/banner');
+      const response = await API.get('/api/banner');
       setBanners(response.data);
     } catch (error) {
       console.error('Error updating banner:', error);
@@ -50,7 +50,7 @@ const BannerManagement = () => {
     if (!window.confirm("Are you sure you want to delete this banner?")) return;
 
     try {
-      await axios.delete(`http://localhost:8080/api/banner/${id}`);
+      await API.delete(`/api/banner/${id}`);
       alert('Banner deleted successfully!');
       setBanners(banners.filter(b => b._id !== id));
       const updated = { ...newBanners };

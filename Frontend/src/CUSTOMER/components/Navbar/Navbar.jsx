@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import logo from '../../../assets/logo.png';
 import SearchBar from "../../components/SearchBar/SearchBar";
+import API from '../../../api.js'; // Ensure this is the correct path to your API file
 
 const Navbar = () => {
   const [offerings, setOfferings] = useState([]);
@@ -12,11 +12,11 @@ const Navbar = () => {
   const offeringsRef = useRef(null);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/offerings')
+    API.get('/api/offerings')
       .then(response => setOfferings(response.data))
       .catch(error => console.error('Error fetching offerings:', error));
 
-    axios.get('http://localhost:8080/api/products')
+    API.get('/api/products')
       .then(response => setAllProducts(response.data))
       .catch(error => console.error('Error fetching products:', error));
   }, []);

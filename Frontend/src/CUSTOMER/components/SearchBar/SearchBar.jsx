@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import API from '../../../api.js'; // Ensure this is the correct path to your API file
 import { Link } from 'react-router-dom';
 import '../../components/SearchBar/SearchBar.css'; // Adjust the path as needed
 
@@ -21,8 +21,8 @@ const SearchBar = () => {
 
   const handleSearch = () => {
     if (!query.trim()) return;
-    axios
-      .get(`http://localhost:8080/api/products/search?query=${query}`)
+    API
+      .get(`/api/products/search?query=${query}`)
       .then(res => {
         setResults(res.data);
         setShowDropdown(true);
@@ -34,8 +34,8 @@ const SearchBar = () => {
     const newQuery = e.target.value;
     setQuery(newQuery);
     if (newQuery.trim()) {
-      axios
-        .get(`http://localhost:8080/api/products/search?query=${newQuery}`)
+      API
+        .get(`/api/products/search?query=${newQuery}`)
         .then(res => {
           setResults(res.data);
           setShowDropdown(true);
