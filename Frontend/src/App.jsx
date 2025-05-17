@@ -1,4 +1,4 @@
-import React from 'react';
+import './index.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from "./CUSTOMER/components/Navbar/Navbar.jsx"; // Customer Navbar
 import AdminNavbar from "./ADMIN/components/Navbar/AdminNavbar.jsx"; // Admin Navbar
