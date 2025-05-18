@@ -67,18 +67,28 @@ router.put('/:id', upload, async (req, res) => {
     const banner = await Banner.findById(req.params.id);
     if (!banner) return res.status(404).json({ message: 'Banner not found' });
 
+    let image = banner.image;
+    let public_id = banner.public_id;
+
     if (req.file) {
       // Optionally delete the old image from Cloudinary if needed
-      // cloudinary.uploader.destroy(public_id_from_old_image)
+      // await cloudinary.uploader.destroy(banner.public_id);
 
-      banner.image = req.file.path;
+      image = req.file.path;
+      public_id = req.file.filename;
     }
 
-    banner.title = req.body.title || banner.title;
-
-    const { error } = bannerValidator.validate({ image: req.file.path, title: req.body.title });
+    const { error } = bannerValidator.validate({
+      image,
+      public_id,
+      title: req.body.title || banner.title,
+    });
 
     if (error) return res.status(400).json({ message: error.details[0].message });
+
+    banner.image = image;
+    banner.public_id = public_id;
+    banner.title = req.body.title || banner.title;
 
     await banner.save();
     res.json(banner);
@@ -87,6 +97,7 @@ router.put('/:id', upload, async (req, res) => {
     res.status(500).json({ message: 'Error updating banner', error: err.message });
   }
 });
+
 
 // @route DELETE /api/banners/:id
 router.delete('/:id', async (req, res) => {
