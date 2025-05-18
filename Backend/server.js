@@ -31,7 +31,7 @@ app.use('/api/video', videoRoutes);
 app.use('/api/subscribe', subscribeRoutes);
 app.use('/api/send-message', sendMessageRoutes);
 app.use('/api/contact', contactForm);
-app.use('/api/partner', partnerForm);
+app.use('/api/partner-contact', partnerForm);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)

@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const PartnerFormPage = () => {
+const PartnerContactForm = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phone: '',
+    companyName: '',
     partnershipType: '',
     message: '',
+    website: ''
   });
 
   const [responseMsg, setResponseMsg] = useState('');
+  const [responseType, setResponseType] = useState(''); // 'success' or 'error'
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,18 +22,47 @@ const PartnerFormPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Basic frontend validation for message length
+    if (formData.message.trim().length < 10) {
+      setResponseMsg('Message must be at least 10 characters long.');
+      setResponseType('error');
+      return;
+    }
+
+    // Validate required dropdown fields on frontend
+    if (!formData.partnershipType) {
+      setResponseMsg('Please select a Partnership Type.');
+      setResponseType('error');
+      return;
+    }
+
     try {
-      await axios.post('https://backend-thejaganbowl.onrender.com/api/partner', formData);
-      setResponseMsg('Partner request submitted successfully!');
+      await axios.post('https://backend-thejaganbowl.onrender.com/api/partner-contact', formData);
+
+      setResponseMsg('Thank you for reaching out! We will get back to you soon.');
+      setResponseType('success');
+
+      // Reset form
       setFormData({
         fullName: '',
         email: '',
         phone: '',
+        companyName: '',
         partnershipType: '',
         message: '',
+        website: ''
       });
     } catch (error) {
-      setResponseMsg('Submission failed. Please try again.');
+      if (error.response?.data?.errors) {
+        // If backend sends array of validation errors
+        setResponseMsg(error.response.data.errors.join(' '));
+      } else if (error.response?.data?.message) {
+        setResponseMsg(error.response.data.message);
+      } else {
+        setResponseMsg('Something went wrong. Please try again later.');
+      }
+      setResponseType('error');
       console.error(error);
     }
   };
@@ -42,7 +74,18 @@ const PartnerFormPage = () => {
           Partner With Us
         </h1>
         <div className="bg-white rounded-2xl shadow-md p-6 sm:p-8">
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="space-y-6">
+
+            {responseMsg && (
+              <div
+                className={`p-3 rounded-md text-sm text-white ${
+                  responseType === 'success' ? 'bg-green-500' : 'bg-red-500'
+                }`}
+              >
+                {responseMsg}
+              </div>
+            )}
+
             <div>
               <label className="block text-gray-700 mb-1">Full Name</label>
               <input
@@ -50,11 +93,12 @@ const PartnerFormPage = () => {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                placeholder="Your name"
+                placeholder="Your full name"
                 className="w-full border px-3 py-2 rounded-md"
                 required
               />
             </div>
+
             <div>
               <label className="block text-gray-700 mb-1">Email</label>
               <input
@@ -67,17 +111,32 @@ const PartnerFormPage = () => {
                 required
               />
             </div>
+
             <div>
-              <label className="block text-gray-700 mb-1">Phone</label>
+              <label className="block text-gray-700 mb-1">Phone Number (optional)</label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="Your phone number"
+                placeholder="+91 9876543210"
                 className="w-full border px-3 py-2 rounded-md"
               />
             </div>
+
+            <div>
+              <label className="block text-gray-700 mb-1">Company Name</label>
+              <input
+                type="text"
+                name="companyName"
+                value={formData.companyName}
+                onChange={handleChange}
+                placeholder="Your company name"
+                className="w-full border px-3 py-2 rounded-md"
+                required
+              />
+            </div>
+
             <div>
               <label className="block text-gray-700 mb-1">Partnership Type</label>
               <select
@@ -87,36 +146,48 @@ const PartnerFormPage = () => {
                 className="w-full border px-3 py-2 rounded-md"
                 required
               >
-                <option value="">Select one</option>
-                <option>Food Supplier</option>
-                <option>Sell at Gym</option>
-                <option>Franchise Inquiry</option>
-                <option>College Canteen Vendor</option>
-                <option>Corporate Collaboration</option>
-                <option>Marketing Collaboration</option>
-                <option>Other</option>
+                <option value="" disabled>
+                  -- Select partnership type --
+                </option>
+                <option value="Reseller">Reseller</option>
+                <option value="Distributor">Distributor</option>
+                <option value="Marketing Partner">Marketing Partner</option>
+                <option value="Technology Partner">Technology Partner</option>
+                <option value="Other">Other</option>
               </select>
             </div>
+
+            <div>
+              <label className="block text-gray-700 mb-1">Website (optional)</label>
+              <input
+                type="url"
+                name="website"
+                value={formData.website}
+                onChange={handleChange}
+                placeholder="https://example.com"
+                className="w-full border px-3 py-2 rounded-md"
+              />
+            </div>
+
             <div>
               <label className="block text-gray-700 mb-1">Message</label>
               <textarea
                 name="message"
+                rows="5"
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="Tell us briefly about your proposal"
+                placeholder="Tell us about your partnership interest"
                 className="w-full border px-3 py-2 rounded-md"
-                rows="4"
+                required
               ></textarea>
             </div>
+
             <button
               type="submit"
               className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700"
             >
               Submit
             </button>
-            {responseMsg && (
-              <p className="text-center text-green-600 mt-4">{responseMsg}</p>
-            )}
           </form>
         </div>
       </div>
@@ -124,4 +195,4 @@ const PartnerFormPage = () => {
   );
 };
 
-export default PartnerFormPage;
+export default PartnerContactForm;

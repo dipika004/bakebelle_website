@@ -11,6 +11,7 @@ const ContactFormPage = () => {
   });
 
   const [responseMsg, setResponseMsg] = useState('');
+  const [responseType, setResponseType] = useState(''); // 'success' or 'error'
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +22,8 @@ const ContactFormPage = () => {
     e.preventDefault();
     try {
       await axios.post('https://backend-thejaganbowl.onrender.com/api/contact', formData);
-      setResponseMsg('Message sent successfully!');
+      alert('Message sent successfully!');
+      setResponseType('success');
       setFormData({
         fullName: '',
         email: '',
@@ -30,7 +32,13 @@ const ContactFormPage = () => {
         message: ''
       });
     } catch (error) {
-      alert('Something went wrong. Please try again.');
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(error.response.data.message);
+        setResponseType('error');
+      } else {
+        alert('Something went wrong. Please try again.');
+        setResponseType('error');
+      }
       console.error(error);
     }
   };
@@ -43,6 +51,17 @@ const ContactFormPage = () => {
         </h1>
         <div className="bg-white rounded-2xl shadow-md p-6 sm:p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
+
+            {responseMsg && (
+              <div
+                className={`p-3 rounded-md text-sm text-white ${
+                  responseType === 'success' ? 'bg-green-500' : 'bg-red-500'
+                }`}
+              >
+                {responseMsg}
+              </div>
+            )}
+
             <div>
               <label className="block text-gray-700 mb-1">Full Name</label>
               <input
@@ -55,6 +74,7 @@ const ContactFormPage = () => {
                 required
               />
             </div>
+
             <div>
               <label className="block text-gray-700 mb-1">Email</label>
               <input
@@ -67,6 +87,7 @@ const ContactFormPage = () => {
                 required
               />
             </div>
+
             <div>
               <label className="block text-gray-700 mb-1">Phone Number (optional)</label>
               <input
@@ -78,6 +99,7 @@ const ContactFormPage = () => {
                 className="w-full border px-3 py-2 rounded-md"
               />
             </div>
+
             <div>
               <label className="block text-gray-700 mb-1">Subject</label>
               <select
@@ -93,6 +115,7 @@ const ContactFormPage = () => {
                 <option>Support / Help</option>
               </select>
             </div>
+
             <div>
               <label className="block text-gray-700 mb-1">Message</label>
               <textarea
@@ -105,15 +128,13 @@ const ContactFormPage = () => {
                 required
               ></textarea>
             </div>
+
             <button
               type="submit"
               className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700"
             >
               Send Message
             </button>
-            {responseMsg && (
-              <p className="text-center text-green-600 mt-4">{responseMsg}</p>
-            )}
           </form>
         </div>
       </div>
