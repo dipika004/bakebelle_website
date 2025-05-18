@@ -23,6 +23,13 @@ import ProtectedRoute from './ADMIN/components/ProtectedRoute.jsx'; // Admin Pro
 import NotFound from './CUSTOMER/pages/NotFound.jsx';
 import ContactFormPage from './CUSTOMER/pages/ContactFormPage.jsx';
 import PartnerFormPage from './CUSTOMER/pages/PartnerFormPage.jsx';
+import WhereToOrderFrom from './CUSTOMER/pages/WhereToOrderFrom.jsx';
+import BrownBread from './CUSTOMER/Blogs/BrownBread.jsx';
+import NutritionLabelBlog from './CUSTOMER/Blogs/NutritionLabelBlog.jsx';
+import HiddenSugarsBlog from './CUSTOMER/Blogs/HiddenSugarsBlog.jsx';
+import WorkoutResultsBlog from './CUSTOMER/Blogs/WorkoutResultsBlog.jsx';
+import MindGameBlog from './CUSTOMER/Blogs/MindGameBlog.jsx';
+import ReelsTrendsBlog from './CUSTOMER/Blogs/ReelsTrendsBlog.jsx';
 
 const App = () => {
   return (
@@ -48,10 +55,18 @@ const PageWithNavbar = () => {
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/blog" element={<Blogs />} />
+        <Route path="/where-to-order" element={<WhereToOrderFrom />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/know-yourself" element={<KnowYourself />} />
         <Route path="/contact-support" element={<ContactFormPage />} />
         <Route path="/partner-with-us" element={<PartnerFormPage />} />
+        <Route path="/blogs/brown-bread" element={<BrownBread />} />
+        <Route path="/blogs/nutrition-labels" element={<NutritionLabelBlog/>}/>
+        <Route path="/blogs/hidden-sugars" element={<HiddenSugarsBlog/>}/>
+        <Route path="/blogs/no-results" element={<WorkoutResultsBlog/>}/>
+        <Route path="/blogs/mind-game" element={<MindGameBlog/>}/>
+        <Route path="/blogs/reels-trends" element={<ReelsTrendsBlog/>}/>
+
 
         {/* Admin Routes */}
         <Route path="/dipika-2004/login" element={<AdminLogin />} />

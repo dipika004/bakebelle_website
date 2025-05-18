@@ -33,6 +33,33 @@ router.get('/', async (req, res) => {
   }
 });
 
+// POST create/upload a new banner
+router.post('/', upload.single('banner'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No banner image uploaded' });
+    }
+
+    const image = req.file.path;     // Cloudinary URL of uploaded image
+    const public_id = req.file.filename;
+
+    const { error } = bannerValidator.validate({ image, public_id });
+    if (error) return res.status(400).json({ message: error.details[0].message });
+
+    const newBanner = new Banner({
+      image,
+      public_id,
+      title: req.body.title || '',  // Optional title if you want
+    });
+
+    await newBanner.save();
+    res.status(201).json(newBanner);
+  } catch (err) {
+    res.status(500).json({ message: 'Error uploading banner', error: err.message });
+  }
+});
+
+
 // PUT update banner
 router.put('/:id', upload.single('banner'), async (req, res) => {
   try {

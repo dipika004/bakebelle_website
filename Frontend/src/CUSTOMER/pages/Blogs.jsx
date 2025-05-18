@@ -54,7 +54,7 @@ export default function Blogs() {
       icon: faBreadSlice,
       summary: "Brown bread may not be as healthy as you think. Here's why...",
       date: "Jan 15, 2023",
-      image: "https://pagedone.io/asset/uploads/1696244317.png",
+      image: "https://res.cloudinary.com/dkqllkcbq/image/upload/v1747593233/Blogs/pvx84tdzrfqkkanm9onh.png",
     },
     {
       title: "How to Read Nutrition Labels the Right Way",
@@ -62,7 +62,7 @@ export default function Blogs() {
       icon: faListUl,
       summary: "Decode the confusing nutrition labels and eat smarter.",
       date: "Feb 10, 2023",
-      image: "https://pagedone.io/asset/uploads/1696244340.png",
+      image: "https://res.cloudinary.com/dkqllkcbq/image/upload/v1747593422/Blogs/k5vz9kkmxjszxkkxw1qv.png",
     },
     {
       title: "Hidden Sugars in Packaged Foods",
@@ -70,22 +70,22 @@ export default function Blogs() {
       icon: faCube,
       summary: "Learn where sugars hide in your favorite snacks.",
       date: "Mar 05, 2023",
-      image: "https://pagedone.io/asset/uploads/1696244356.png",
+      image: "https://res.cloudinary.com/dkqllkcbq/image/upload/v1747593702/Blogs/czzkrsxk7pwaj4ngauhj.png",
     },
     {
       title: "Why You're Not Seeing Results After Hardcore Workouts",
       link: "/blogs/no-results",
-      image: "https://pagedone.io/asset/uploads/1696244356.png",
+      image: "https://res.cloudinary.com/dkqllkcbq/image/upload/v1747593701/Blogs/hk3xedtp8bpkvvrmpypp.png",
     },
     {
       title: "The Mind Game: Why We Choose Junk Over Health",
       link: "/blogs/mind-game",
-      image: "https://pagedone.io/asset/uploads/1696244356.png",
+      image: "https://res.cloudinary.com/dkqllkcbq/image/upload/v1747593916/Blogs/uabjjztsuftzao5kypyw.png",
     },
     {
       title: "How Reels & Trends Affect Your Cravings",
       link: "/blogs/reels-trends",
-      image: "https://pagedone.io/asset/uploads/1696244356.png",
+      image: "https://res.cloudinary.com/dkqllkcbq/image/upload/v1747593967/Blogs/pv3uteucpcmyiunimbon.png",
     },
   ];
 
@@ -124,7 +124,7 @@ export default function Blogs() {
           {/* Latest Blogs */}
           <section className="py-16">
             <h2 className="font-manrope text-4xl font-bold text-gray-900 text-center mb-16">
-              Our Latest Blogs
+              Our Blogs
             </h2>
             <div className="flex justify-center flex-wrap gap-8">
               {researchBlogs.map((blog, idx) => (
@@ -141,9 +141,9 @@ export default function Blogs() {
                     className="rounded-t-2xl w-full object-cover h-56"
                   />
                   <div className="p-4 lg:p-6 rounded-b-2xl">
-                    <span className="text-indigo-600 font-medium mb-3 block">
+                    {/* <span className="text-indigo-600 font-medium mb-3 block">
                       {blog.date || "Recent"}
-                    </span>
+                    </span> */}
                     <h4 className="text-xl text-gray-900 font-medium leading-8 mb-3">
                       {blog.title}
                     </h4>

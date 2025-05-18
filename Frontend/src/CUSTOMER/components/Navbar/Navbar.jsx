@@ -49,20 +49,21 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50 px-4 sm:px-6 lg:px-8 py-3">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
+
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2">
+        <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
           <img src={logo} alt="Logo" className="w-12 h-12 object-contain" />
-          <span className="text-xl font-bold text-gray-800">thejaganbowl</span>
+          <span className="text-xl font-bold text-gray-800 whitespace-nowrap">thejaganbowl</span>
         </Link>
 
         {/* Search Bar (large screens only) */}
-        <div className="hidden lg:flex flex-1 justify-center px-4">
+        <div className="hidden lg:flex flex-1 justify-center px-8">
           <SearchBar products={allProducts} />
         </div>
 
         {/* Hamburger for small/medium screens */}
         <button
-          className="lg:hidden text-gray-700 focus:outline-none"
+          className="lg:hidden text-gray-700 focus:outline-none ml-4"
           onClick={toggleMenu}
           aria-label="Toggle menu"
           aria-expanded={isMenuOpen}
@@ -82,7 +83,7 @@ const Navbar = () => {
             isMenuOpen ? 'block' : 'hidden'
           } lg:block`}
         >
-          <ul className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-6 text-gray-700 font-medium px-4 py-4 lg:p-0">
+          <ul className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-6 text-gray-700 font-medium px-4 py-4 lg:p-0 whitespace-nowrap">
             <li>
               <Link
                 to="/"
@@ -100,6 +101,7 @@ const Navbar = () => {
                 <button
                   className="flex items-center px-3 py-2 hover:text-green-600 focus:outline-none"
                   onClick={toggleOfferings}
+                  type="button"
                 >
                   <span>Offerings</span>
                   <svg
@@ -137,6 +139,7 @@ const Navbar = () => {
                   className="flex items-center justify-between w-full px-3 py-2 hover:text-green-600 focus:outline-none"
                   onClick={toggleOfferings}
                   aria-expanded={isOfferingsOpen}
+                  type="button"
                 >
                   <span>Offerings</span>
                   <svg
@@ -186,6 +189,17 @@ const Navbar = () => {
                 Blog
               </Link>
             </li>
+
+            <li>
+              <Link
+                to="/where-to-order"
+                className="block px-3 py-2 hover:text-green-600 focus:outline-none"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Where To Order
+              </Link>
+            </li>
+
             <li>
               <Link
                 to="/contact"
