@@ -1,5 +1,7 @@
 import React from 'react';
 import { Mail, Users, Send } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
 
 // Define Button, Card, and other components directly
 const Button = ({ className, onClick, children }) => {
@@ -40,6 +42,7 @@ const cn = (...args) => {
 };
 
 const Contact = () => {
+  const navigate= useNavigate();
   const openForm = (url) => window.open(url, '_blank');
 
   return (
@@ -89,7 +92,7 @@ const Contact = () => {
             </CardHeader>
             <CardContent className="mt-6">
               <Button
-                onClick={() => openForm('https://forms.gle/YOUR_CUSTOMER_FORM_LINK')}
+                onClick={() =>navigate('/contact-support') }
                 className={cn(
                   'w-full bg-indigo-500 hover:bg-indigo-600 text-white',
                   'py-3 rounded-lg font-semibold text-lg', // Rounded corners
@@ -127,7 +130,7 @@ const Contact = () => {
             </CardHeader>
             <CardContent className="mt-6">
               <Button
-                onClick={() => openForm('https://forms.gle/YOUR_COLLAB_FORM_LINK')}
+                onClick={() => navigate('/partner-with-us')}
                 className={cn(
                   'w-full bg-teal-500 hover:bg-teal-600 text-white',
                   'py-3 rounded-lg font-semibold text-lg',

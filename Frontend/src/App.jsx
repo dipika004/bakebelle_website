@@ -21,6 +21,8 @@ import KnowYourself from './CUSTOMER/pages/KnowYourself.jsx';
 import AdminLogin from './ADMIN/pages/AdminLogin.jsx';
 import ProtectedRoute from './ADMIN/components/ProtectedRoute.jsx'; // Admin Protected Route
 import NotFound from './CUSTOMER/pages/NotFound.jsx';
+import ContactFormPage from './CUSTOMER/pages/ContactFormPage.jsx';
+import PartnerFormPage from './CUSTOMER/pages/PartnerFormPage.jsx';
 
 const App = () => {
   return (
@@ -48,6 +50,8 @@ const PageWithNavbar = () => {
         <Route path="/blog" element={<Blogs />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/know-yourself" element={<KnowYourself />} />
+        <Route path="/contact-support" element={<ContactFormPage />} />
+        <Route path="/partner-with-us" element={<PartnerFormPage />} />
 
         {/* Admin Routes */}
         <Route path="/dipika-2004/login" element={<AdminLogin />} />

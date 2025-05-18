@@ -7,6 +7,8 @@ const bannerRoutes = require('./routes/banner');
 const videoRoutes = require('./routes/video');
 const subscribeRoutes = require('./routes/subscribe');
 const sendMessageRoutes = require('./routes/sendMessage');
+const contactForm=require("./routes/contact");
+const partnerForm=require("./routes/partner");
 const path = require('path');
 require('dotenv').config(); // Load env variables
 
@@ -28,6 +30,8 @@ app.use('/api/banner', bannerRoutes);
 app.use('/api/video', videoRoutes);
 app.use('/api/subscribe', subscribeRoutes);
 app.use('/api/send-message', sendMessageRoutes);
+app.use('/api/contact', contactForm);
+app.use('/api/partner', partnerForm);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
