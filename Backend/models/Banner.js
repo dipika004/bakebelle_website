@@ -10,7 +10,6 @@ const bannerSchema = new mongoose.Schema({
     type: String,
     required:true // Optional, if you want to store the public ID from Cloudinary
   },
-  title: String,  // Optional
   createdAt: {
     type: Date,
     default: Date.now,
