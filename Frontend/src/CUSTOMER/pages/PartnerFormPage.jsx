@@ -14,28 +14,55 @@ const PartnerContactForm = () => {
 
   const [responseMsg, setResponseMsg] = useState('');
   const [responseType, setResponseType] = useState(''); // 'success' or 'error'
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
+    setResponseMsg('');
+    setResponseType('');
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const isValidUrl = (url) => {
+    if (!url) return true; // empty url is allowed
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic frontend validation for message length
+    // Frontend validations
+
     if (formData.message.trim().length < 10) {
       setResponseMsg('Message must be at least 10 characters long.');
       setResponseType('error');
       return;
     }
 
-    // Validate required dropdown fields on frontend
     if (!formData.partnershipType) {
       setResponseMsg('Please select a Partnership Type.');
       setResponseType('error');
       return;
     }
+
+    if (formData.phone && !/^\d{10,15}$/.test(formData.phone)) {
+      setResponseMsg('Phone number must be between 10 and 15 digits, digits only.');
+      setResponseType('error');
+      return;
+    }
+
+    if (!isValidUrl(formData.website)) {
+      setResponseMsg('Website must be a valid URL.');
+      setResponseType('error');
+      return;
+    }
+
+    setLoading(true);
 
     try {
       await axios.post('https://backend-thejaganbowl.onrender.com/api/partner-contact', formData);
@@ -53,9 +80,9 @@ const PartnerContactForm = () => {
         message: '',
         website: ''
       });
+      setResponseMsg('');
     } catch (error) {
       if (error.response?.data?.errors) {
-        // If backend sends array of validation errors
         setResponseMsg(error.response.data.errors.join(' '));
       } else if (error.response?.data?.message) {
         setResponseMsg(error.response.data.message);
@@ -64,6 +91,8 @@ const PartnerContactForm = () => {
       }
       setResponseType('error');
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -184,9 +213,12 @@ const PartnerContactForm = () => {
 
             <button
               type="submit"
-              className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700"
+              disabled={loading}
+              className={`w-full py-2 rounded-md text-white ${
+                loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
+              }`}
             >
-              Submit
+              {loading ? 'Submitting...' : 'Submit'}
             </button>
           </form>
         </div>
