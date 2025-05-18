@@ -144,6 +144,7 @@ const Navbar = () => {
               )}
             </div>
 
+            <Link to="/dipika-2004/view-banner" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" onClick={() => setMenuOpen(false)}>View Banner</Link>
             <Link to="/dipika-2004/view-videos" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" onClick={() => setMenuOpen(false)}>View Videos</Link>
             <Link to="/dipika-2004/send-message" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" onClick={() => setMenuOpen(false)}>Send Message</Link>
 
