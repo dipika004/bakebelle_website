@@ -40,7 +40,7 @@ const PartnerContactForm = () => {
     try {
       await axios.post('https://backend-thejaganbowl.onrender.com/api/partner-contact', formData);
 
-      setResponseMsg('Thank you for reaching out! We will get back to you soon.');
+      alert('Thank you for reaching out! We will get back to you soon.');
       setResponseType('success');
 
       // Reset form
