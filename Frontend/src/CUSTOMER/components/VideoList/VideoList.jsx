@@ -25,20 +25,25 @@ const VideoList = () => {
   const visibleVideos = showAll ? videos : videos.slice(0, 4);
 
   return (
-    <section className="max-w-7xl mx-auto  px-4 py-8">
+    <section className="max-w-6xl mx-auto px-4 py-8">
       <h3 className="text-2xl font-semibold text-center mb-6">Slice Stories</h3>
 
       <div className="flex flex-wrap justify-center gap-6">
         {visibleVideos.map((video) => (
           <div
             key={video._id}
-            className="bg-white rounded-lg shadow p-4 w-72 flex flex-col"
+            className="bg-white rounded-lg shadow-md p-3 w-64 flex flex-col"
           >
-            <video className="w-full rounded-md mb-4" controls>
-              <source src={video.videoUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            <h5 className="text-lg font-medium mb-1">{video.title || 'Untitled Video'}</h5>
+            <div className="w-full h-40 overflow-hidden rounded-md mb-3">
+              <video
+                className="w-full h-full object-cover rounded-md"
+                controls
+              >
+                <source src={video.videoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <h5 className="text-base font-semibold mb-1">{video.title || 'Untitled Video'}</h5>
             <p className="text-sm text-gray-600">{video.description || 'No description provided.'}</p>
           </div>
         ))}
@@ -59,5 +64,3 @@ const VideoList = () => {
 };
 
 export default VideoList;
-
-
