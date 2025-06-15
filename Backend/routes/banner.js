@@ -7,23 +7,17 @@ const bannerValidator = require('../validators/bannerValidator');
 
 const router = express.Router();
 
-// Cloudinary config
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// Storage logic for Cloudinary
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: async (req, file) => {
-    const device = file.fieldname === 'largeBanner' ? 'large' : 'small';
-    return {
-      folder: 'banners',
-      allowed_formats: ['jpg', 'png', 'jpeg'],
-      public_id: `${Date.now()}_${device}`,
-    };
+  params: {
+    folder: 'banners',
+    allowed_formats: ['jpg', 'png', 'jpeg']
   },
 });
 
@@ -35,12 +29,11 @@ router.get('/', async (req, res) => {
     const banners = await Banner.find();
     res.json(banners);
   } catch (err) {
-    console.error('GET /banner Error:', err);
     res.status(500).json({ message: 'Error retrieving banners', error: err.message });
   }
 });
 
-// POST upload large and/or small banners
+// POST create/upload a new banner
 router.post('/', upload.fields([
   { name: 'largeBanner' }, 
   { name: 'smallBanner' }
@@ -84,5 +77,75 @@ router.post('/', upload.fields([
 });
 
 
+// PUT update banner
+router.put('/:id', upload.single('banner'), async (req, res) => {
+  try {
+    const banner = await Banner.findById(req.params.id);
+    if (!banner) return res.status(404).json({ message: 'Banner not found' });
+
+    let image = banner.image;
+    let public_id = banner.public_id;
+
+    if (req.file) {
+      image = req.file.path;
+      public_id = req.file.filename;
+    }
+
+    const { error } = bannerValidator.validate({ image, public_id });
+    if (error) return res.status(400).json({ message: error.details[0].message });
+
+    banner.image = image;
+    banner.public_id = public_id;
+
+    await banner.save();
+    res.json(banner);
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating banner', error: err.message });
+  }
+});
+
+// PUT update banner
+router.put('/:id', upload.single('banner'), async (req, res) => {
+  try {
+    const banner = await Banner.findById(req.params.id);
+    if (!banner) return res.status(404).json({ message: 'Banner not found' });
+
+    let image = banner.image;
+    let public_id = banner.public_id;
+
+    if (req.file) {
+      image = req.file.path;
+      public_id = req.file.filename;
+    }
+
+    const { error } = bannerValidator.validate({
+      image,
+      public_id,
+      title: req.body.title || banner.title
+    });
+
+    if (error) return res.status(400).json({ message: error.details[0].message });
+
+    banner.image = image;
+    banner.public_id = public_id;
+    banner.title = req.body.title || banner.title;
+
+    await banner.save();
+    res.json(banner);
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating banner', error: err.message });
+  }
+});
+
+// DELETE banner
+router.delete('/:id', async (req, res) => {
+  try {
+    const banner = await Banner.findByIdAndDelete(req.params.id);
+    if (!banner) return res.status(404).json({ message: 'Banner not found' });
+    res.json({ message: 'Banner deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error deleting banner', error: err.message });
+  }
+});
 
 module.exports = router;
