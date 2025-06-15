@@ -3,6 +3,7 @@ import BannerSlider from '../components/Banner/BannerSlider';
 import VideoList from '../components/VideoList/VideoList';
 import axios from 'axios';
 import Footer from '../components/Footer/Footer';
+import WhyChooseUs from '../components/WhyChooseUs';
 
 const Home = () => {
   const [email, setEmail] = useState('');
@@ -90,6 +91,7 @@ const Home = () => {
     <>
       <div className="w-full">
         <BannerSlider />
+        <WhyChooseUs />
         <VideoList />
 
 <section className="relative min-h-[60vh] flex items-center justify-center px-6 py-16 bg-gradient-to-br from-green-50 to-green-100 overflow-hidden">

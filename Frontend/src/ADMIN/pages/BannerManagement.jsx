@@ -40,31 +40,29 @@ const BannerManagement = () => {
   };
 
   const submitUpdatedBanner = async (id, device) => {
-    const banner = newBanners[id];
-    if (!banner.file) {
-      alert('No new image selected.');
-      return;
-    }
+  const banner = newBanners[id];
+  if (!banner.file) {
+    alert('No new image selected.');
+    return;
+  }
 
-    const formData = new FormData();
-    if (device === 'large') {
-      formData.append('largeBanner', banner.file);
-    } else if (device === 'small') {
-      formData.append('smallBanner', banner.file);
-    }
+  const formData = new FormData();
+  formData.append('banner', banner.file); // 👈 single file field expected by backend
+  formData.append('device', device);      // Optional: If device might change
+  formData.append('title', '');           // Optional: Pass a title if needed
 
-    try {
-      await axios.post('https://backend-thejaganbowl.onrender.com/api/banner', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+  try {
+    await axios.put(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
 
-      alert('Banner uploaded successfully!');
-      fetchBanners();
-    } catch (error) {
-      console.error('Error uploading banner:', error);
-      alert('Failed to upload banner.');
-    }
-  };
+    alert('Banner updated successfully!');
+    fetchBanners();
+  } catch (error) {
+    console.error('❌ Error updating banner:', error.response?.data || error.message);
+    alert('Failed to update banner.');
+  }
+};
 
   const deleteBanner = async (id) => {
     if (!window.confirm("Are you sure you want to delete this banner?")) return;
