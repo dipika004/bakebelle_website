@@ -21,7 +21,6 @@ const Navbar = () => {
       .catch(error => console.error('Error fetching products:', error));
   }, []);
 
-  // Handle click outside to close offerings dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (offeringsRef.current && !offeringsRef.current.contains(event.target)) {
@@ -53,7 +52,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
           <img src={logo} alt="Logo" className="w-12 h-12 object-contain" />
-          <span className="text-xl font-bold text-gray-800 whitespace-nowrap">thejaganbowl</span>
+          <span className="text-2xl font-bold text-gray-800 whitespace-nowrap">thejaganbowl</span>
         </Link>
 
         {/* Search Bar (large screens only) */}
@@ -83,7 +82,7 @@ const Navbar = () => {
             isMenuOpen ? 'block' : 'hidden'
           } lg:block`}
         >
-          <ul className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-6 text-gray-700 font-medium px-4 py-4 lg:p-0 whitespace-nowrap">
+          <ul className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-6 text-gray-700 font-semibold text-lg px-4 py-4 lg:p-0 whitespace-nowrap">
             <li>
               <Link
                 to="/"
@@ -123,7 +122,7 @@ const Navbar = () => {
                       <Link
                         key={offering.id}
                         to={`/offerings/${offering.name}`}
-                        className="block px-5 py-3 text-sm text-gray-800 hover:bg-gray-100"
+                        className="block px-5 py-3 text-base text-gray-800 hover:bg-gray-100"
                         onClick={handleOfferingClick}
                       >
                         {offering.name}
@@ -160,7 +159,7 @@ const Navbar = () => {
                       <Link
                         key={offering.id}
                         to={`/offerings/${offering.name}`}
-                        className="block px-3 py-2 text-gray-800 hover:bg-gray-100 rounded"
+                        className="block px-3 py-2 text-base text-gray-800 hover:bg-gray-100 rounded"
                         onClick={handleOfferingClick}
                       >
                         {offering.name}
@@ -180,7 +179,9 @@ const Navbar = () => {
                 About Us
               </Link>
             </li>
-            <li>
+
+            {/* Optional Future Blog */}
+            {/* <li>
               <Link
                 to="/blog"
                 className="block px-3 py-2 hover:text-green-600 focus:outline-none"
@@ -188,7 +189,7 @@ const Navbar = () => {
               >
                 Blog
               </Link>
-            </li>
+            </li> */}
 
             <li>
               <Link
@@ -209,6 +210,7 @@ const Navbar = () => {
                 Contact
               </Link>
             </li>
+
             <li>
               <Link
                 to="/know-yourself"

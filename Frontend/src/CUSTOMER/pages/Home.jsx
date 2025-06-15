@@ -92,88 +92,58 @@ const Home = () => {
         <BannerSlider />
         <VideoList />
 
-        {/* Coming Soon Section Centered with Tailwind */}
-        <section className="min-h-[40vh] flex flex-col justify-center items-center px-6 text-center">
-          <h2
-            className="font-bold text-5xl mb-2 bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent animate-fadeIn"
-          >
-            Coming Soon
-          </h2>
-          
-          <h3 className="text-green-700 font-semibold text-3xl mb-3 animate-fadeIn delay-200">
-            Varieties of Healthy Snacks!
-          </h3>
-          <p className="text-gray-600 text-lg max-w-xl mx-auto animate-fadeIn delay-400">
-            Stay tuned for our upcoming launches in guilt-free snacking that you will love!
-          </p>
+<section className="relative min-h-[60vh] flex items-center justify-center px-6 py-16 bg-gradient-to-br from-green-50 to-green-100 overflow-hidden">
+  {/* Decorative blurred background shape */}
+  <div className="absolute w-72 h-72 bg-green-200 rounded-full blur-3xl opacity-30 top-[-50px] right-[-50px]"></div>
 
-          <h5 className="mt-4 font-semibold">Be the first to know – Subscribe now!</h5>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-3 mt-4 w-full max-w-xl">
-            <input
-              type="email"
-              className="w-3/4 md:w-1/2 max-w-md shadow-sm border border-green-600 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="Enter your email address"
-              value={email}
-              onChange={handleEmailChange}
-            />
-            <button
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded shadow-lg transition-colors duration-300"
-              onClick={handleSubscribe}
-            >
-              Notify Me
-            </button>
-          </div>
+  <div className="bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl max-w-2xl w-full text-center animate-fadeIn border border-green-200">
+    <h2 className="text-4xl md:text-5xl font-bold text-green-700 mb-2">
+      🌱 Coming Soon
+    </h2>
+    <h3 className="text-2xl md:text-3xl font-semibold text-green-800 mb-4">
+      Varieties of Healthy Snacks!
+    </h3>
+    <p className="text-gray-700 text-lg mb-6">
+      Stay tuned for our upcoming guilt-free delights – nutritious, delicious & crafted just for you!
+    </p>
 
-          {message && (
-            <p className={`mt-4 text-sm font-medium ${messageClass}`}>
-              {message}
-            </p>
-          )}
+    <h5 className="font-medium text-gray-800">Be the first to know – Subscribe now!</h5>
 
-          {showPopup && (
-            <div
-              className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-            >
-              <div className="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full">
-                <div className="flex justify-between items-center border-b border-gray-200 pb-2 mb-3">
-                  <h5 className="text-green-600 font-semibold text-lg">🎉 Thank You!</h5>
-                  <button
-                    className="text-gray-600 hover:text-gray-900"
-                    onClick={closePopup}
-                    aria-label="Close popup"
-                  >
-                    &#x2715;
-                  </button>
-                </div>
-                <p className="text-center text-gray-700">You're now subscribed and will receive updates from us!</p>
-              </div>
-            </div>
-          )}
+    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-4">
+      <input
+        type="email"
+        className="w-full sm:w-2/3 px-4 py-2 border border-green-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm"
+        placeholder="Enter your email"
+        value={email}
+        onChange={handleEmailChange}
+      />
+      <button
+        className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-xl shadow-md transition"
+        onClick={handleSubscribe}
+      >
+        Notify Me
+      </button>
+    </div>
 
-          {/* Tailwind custom animations */}
-          <style>{`
-            @keyframes fadeIn {
-              0% {opacity: 0; transform: translateY(20px);}
-              100% {opacity: 1; transform: translateY(0);}
-            }
-            @keyframes slideIn {
-              0% {width: 0;}
-              100% {width: 80px;}
-            }
-            .animate-fadeIn {
-              animation: fadeIn 1.5s ease forwards;
-            }
-            .animate-slideIn {
-              animation: slideIn 1s ease forwards;
-            }
-            .animate-fadeIn.delay-200 {
-              animation-delay: 0.2s;
-            }
-            .animate-fadeIn.delay-400 {
-              animation-delay: 0.4s;
-            }
-          `}</style>
-        </section>
+    {message && (
+      <p className={`mt-3 text-sm font-medium ${messageClass}`}>
+        {message}
+      </p>
+    )}
+  </div>
+
+  {/* Animations */}
+  <style>{`
+    @keyframes fadeIn {
+      0% {opacity: 0; transform: translateY(30px);}
+      100% {opacity: 1; transform: translateY(0);}
+    }
+    .animate-fadeIn {
+      animation: fadeIn 1s ease-out forwards;
+    }
+  `}</style>
+</section>
+
       </div>
 
       <Footer />
