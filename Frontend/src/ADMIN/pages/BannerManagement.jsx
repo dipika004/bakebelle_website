@@ -6,45 +6,64 @@ const BannerManagement = () => {
   const [newBanners, setNewBanners] = useState({});
 
   useEffect(() => {
-    axios.get('https://backend-thejaganbowl.onrender.com/api/banner')
-      .then(response => {
-        setBanners(response.data);
-        const initialNewBanners = {};
-        response.data.forEach(banner => {
-          initialNewBanners[banner._id] = { file: null, preview: banner.image };
-        });
-        setNewBanners(initialNewBanners);
-      })
-      .catch(error => console.error('Error fetching banners:', error));
+    fetchBanners();
   }, []);
 
-  const handleBannerChange = (e, bannerId) => {
+  const fetchBanners = async () => {
+    try {
+      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/banner');
+      setBanners(response.data);
+
+      const initialNewBanners = {};
+      response.data.forEach(banner => {
+        initialNewBanners[banner._id] = {
+          largeFile: null,
+          smallFile: null,
+          largePreview: banner.device === 'large' ? banner.image : '',
+          smallPreview: banner.device === 'small' ? banner.image : '',
+        };
+      });
+      setNewBanners(initialNewBanners);
+    } catch (error) {
+      console.error('Error fetching banners:', error);
+    }
+  };
+
+  const handleFileChange = (e, bannerId, type) => {
     const file = e.target.files[0];
     setNewBanners(prev => ({
       ...prev,
-      [bannerId]: { file, preview: URL.createObjectURL(file) }
+      [bannerId]: {
+        ...prev[bannerId],
+        [`${type}File`]: file,
+        [`${type}Preview`]: URL.createObjectURL(file),
+      },
     }));
   };
 
-  const submitNewBanner = async (id) => {
-    const banner = newBanners[id];
-    if (!banner || !banner.file) return alert("Please select a new banner image.");
-
+  const submitUpdatedBanner = async (id) => {
+  const banner = newBanners[id];
+  const uploadSingleBanner = async (file, device) => {
     const formData = new FormData();
-    formData.append('banner', banner.file);
+    formData.append('largeBanner', largeBannerFile);
+formData.append('smallBanner', smallBannerFile);
 
-    try {
-      await axios.put(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      alert('Banner updated successfully!');
-      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/banner');
-      setBanners(response.data);
-    } catch (error) {
-      console.error('Error updating banner:', error);
-      alert('Failed to update banner. Please try again.');
-    }
+    return axios.post('https://backend-thejaganbowl.onrender.com/api/banner', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
   };
+
+  try {
+    if (banner.largeFile) await uploadSingleBanner(banner.largeFile, 'large');
+    if (banner.smallFile) await uploadSingleBanner(banner.smallFile, 'small');
+    alert('Banner(s) uploaded successfully!');
+    fetchBanners();
+  } catch (error) {
+    console.error('Error uploading banner:', error);
+    alert('Failed to upload banner.');
+  }
+};
+
 
   const deleteBanner = async (id) => {
     if (!window.confirm("Are you sure you want to delete this banner?")) return;
@@ -52,10 +71,7 @@ const BannerManagement = () => {
     try {
       await axios.delete(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`);
       alert('Banner deleted successfully!');
-      setBanners(banners.filter(b => b._id !== id));
-      const updated = { ...newBanners };
-      delete updated[id];
-      setNewBanners(updated);
+      fetchBanners();
     } catch (error) {
       console.error('Error deleting banner:', error);
       alert('Failed to delete banner.');
@@ -70,43 +86,45 @@ const BannerManagement = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {banners.map((banner) => (
             <div key={banner._id} className="border border-gray-300 rounded-xl p-4 shadow-sm">
+              <h3 className="font-semibold mb-2 capitalize">{banner.device} Banner</h3>
               <img
-                src={newBanners[banner._id]?.preview || banner.image}
-                alt={`Banner ${banner._id}`}
+                src={banner.image}
+                alt={`${banner.device} Banner`}
                 className="rounded-lg w-full max-h-72 object-cover"
               />
-              <div className="mt-4 space-y-3">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleBannerChange(e, banner._id)}
-                  className="w-full file:mr-4 file:py-2 file:px-4
-                    file:rounded-full file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-blue-50 file:text-blue-700
-                    hover:file:bg-blue-100"
-                />
-                {newBanners[banner._id]?.preview && (
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                  handleFileChange(e, banner._id, banner.device)
+                }
+                className="w-full mt-2"
+              />
+
+              {newBanners[banner._id]?.[`${banner.device}Preview`] && (
+                <>
+                  <p className="text-sm mt-2">New Preview:</p>
                   <img
-                    src={newBanners[banner._id].preview}
-                    alt="Preview"
-                    className="w-full max-h-40 object-cover rounded-md border"
+                    src={newBanners[banner._id][`${banner.device}Preview`]}
+                    alt="New Preview"
+                    className="rounded-lg w-full max-h-72 object-cover"
                   />
-                )}
-                <div className="flex gap-3">
-                  <button
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm"
-                    onClick={() => submitNewBanner(banner._id)}
-                  >
-                    Update Banner
-                  </button>
-                  <button
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm"
-                    onClick={() => deleteBanner(banner._id)}
-                  >
-                    Delete Banner
-                  </button>
-                </div>
+                </>
+              )}
+
+              <div className="flex gap-3 mt-4">
+                <button
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm"
+                  onClick={() => submitUpdatedBanner(banner._id)}
+                >
+                  Update Banner
+                </button>
+                <button
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm"
+                  onClick={() => deleteBanner(banner._id)}
+                >
+                  Delete Banner
+                </button>
               </div>
             </div>
           ))}
