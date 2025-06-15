@@ -17,46 +17,35 @@ const AdminPanel = () => {
   const [largeBannerFile, setLargeBannerFile] = useState(null);
   const [smallBannerFile, setSmallBannerFile] = useState(null);
   const [bannerPreview, setBannerPreview] = useState({ large: null, small: null });
-  const [existingBanners, setExistingBanners] = useState({ large: null, small: null });
 
-  const [videoData, setVideoData] = useState({ title: '', description: '', file: null });
+  const [videoData, setVideoData] = useState({
+    title: '',
+    description: '',
+    file: null,
+  });
   const [videoPreview, setVideoPreview] = useState(null);
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     fetchOfferings();
     fetchVideos();
-    fetchBanners();
   }, []);
 
   const fetchOfferings = async () => {
     try {
-      const res = await axios.get('https://backend-thejaganbowl.onrender.com/api/offerings');
-      setOfferings(res.data);
-    } catch (err) {
-      console.error('Error fetching offerings:', err);
-    }
-  };
-
-  const fetchBanners = async () => {
-    try {
-      const res = await axios.get('https://backend-thejaganbowl.onrender.com/api/banner');
-      const banners = res.data || {};
-      setExistingBanners({
-        large: banners.largeBanner || null,
-        small: banners.smallBanner || null,
-      });
-    } catch (err) {
-      console.error('Error fetching banners:', err);
+      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/offerings');
+      setOfferings(response.data);
+    } catch (error) {
+      console.error('Error fetching offerings:', error);
     }
   };
 
   const fetchVideos = async () => {
     try {
-      const res = await axios.get('https://backend-thejaganbowl.onrender.com/api/video');
-      setVideos(res.data);
-    } catch (err) {
-      console.error('Error fetching videos:', err);
+      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/video');
+      setVideos(response.data);
+    } catch (error) {
+      console.error('Error fetching videos:', error);
     }
   };
 
@@ -104,8 +93,8 @@ const AdminPanel = () => {
         shoppingLinks: { zepto: '', instamart: '', blinkit: '' },
         images: [],
       });
-    } catch (err) {
-      console.error('Error uploading product:', err);
+    } catch (error) {
+      console.error('Error uploading product:', error);
     }
   };
 
@@ -115,8 +104,8 @@ const AdminPanel = () => {
         await axios.post('https://backend-thejaganbowl.onrender.com/api/offerings', { name: newOffering });
         setNewOffering('');
         fetchOfferings();
-      } catch (err) {
-        console.error('Error adding offering:', err);
+      } catch (error) {
+        console.error('Error adding offering:', error);
       }
     }
   };
@@ -127,27 +116,29 @@ const AdminPanel = () => {
       try {
         await axios.put(`https://backend-thejaganbowl.onrender.com/api/offerings/${id}`, { name: newName });
         fetchOfferings();
-      } catch (err) {
-        console.error('Error updating offering:', err);
+      } catch (error) {
+        console.error('Error updating offering:', error);
       }
     }
   };
 
   const deleteOffering = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this offering?')) return;
+    const confirmDelete = window.confirm('Are you sure you want to delete this offering?');
+    if (!confirmDelete) return;
     try {
       await axios.delete(`https://backend-thejaganbowl.onrender.com/api/offerings/${id}`);
       alert('Offering and related products deleted successfully!');
       fetchOfferings();
-    } catch (err) {
-      console.error('Error deleting offering:', err);
-      alert('Failed to delete offering.');
+    } catch (error) {
+      console.error('Error deleting offering:', error);
+      alert('Failed to delete offering. Please try again.');
     }
   };
 
   const handleBannerUpload = (e, type) => {
     const file = e.target.files[0];
     if (!file) return;
+
     if (type === 'large') {
       setLargeBannerFile(file);
       setBannerPreview((prev) => ({ ...prev, large: URL.createObjectURL(file) }));
@@ -164,25 +155,19 @@ const AdminPanel = () => {
     }
 
     const formData = new FormData();
-    if (largeBannerFile) formData.append('largeBanner', largeBannerFile);
-    if (smallBannerFile) formData.append('smallBanner', smallBannerFile);
+    if (largeBannerFile) formData.append('banner', largeBannerFile, 'large.jpg');
+    if (smallBannerFile) formData.append('banner', smallBannerFile, 'small.jpg');
 
     try {
       await axios.post('https://backend-thejaganbowl.onrender.com/api/banner', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Banner(s) uploaded successfully!');
-      if (largeBannerFile) {
-        setLargeBannerFile(null);
-        setBannerPreview((prev) => ({ ...prev, large: null }));
-      }
-      if (smallBannerFile) {
-        setSmallBannerFile(null);
-        setBannerPreview((prev) => ({ ...prev, small: null }));
-      }
-      fetchBanners();
-    } catch (err) {
-      console.error('Error uploading banner:', err);
+      setLargeBannerFile(null);
+      setSmallBannerFile(null);
+      setBannerPreview({ large: null, small: null });
+    } catch (error) {
+      console.error('Error uploading banner:', error);
     }
   };
 
@@ -217,47 +202,30 @@ const AdminPanel = () => {
       setVideoData({ title: '', description: '', file: null });
       setVideoPreview(null);
       fetchVideos();
-    } catch (err) {
-      console.error('Error uploading video:', err);
+    } catch (error) {
+      console.error('Error uploading video:', error);
     }
   };
 
   return (
     <div className="admin-container">
       <div className="admin-content">
-        {/* Banner Upload Section */}
         <section className="section-card">
           <h3>Upload Homepage Banners</h3>
 
           <label>Large Screen Banner</label>
           <input type="file" accept="image/*" onChange={(e) => handleBannerUpload(e, 'large')} className="file-input" />
-         {(bannerPreview.large || existingBanners.large) && (
-  <div className="mt-2 text-center hidden lg:block">
-    <img
-      src={bannerPreview.large || existingBanners.large}
-      alt="Large Banner"
-      className="mx-auto max-w-full h-auto rounded-xl"
-    />
-  </div>
-)}
+          {bannerPreview.large && <div className="banner-preview"><img src={bannerPreview.large} alt="Large Banner Preview" /></div>}
 
           <label>Small Screen Banner</label>
           <input type="file" accept="image/*" onChange={(e) => handleBannerUpload(e, 'small')} className="file-input" />
-          {(bannerPreview.small || existingBanners.small) && (
-  <div className="mt-2 text-center block lg:hidden">
-    <img
-      src={bannerPreview.small || existingBanners.small}
-      alt="Small Banner"
-      className="mx-auto max-w-full h-auto rounded-xl"
-    />
-  </div>
-)}
+          {bannerPreview.small && <div className="banner-preview"><img src={bannerPreview.small} alt="Small Banner Preview" /></div>}
+
           <button className="btn btn-primary mt-2" onClick={submitBanner}>Upload Banners</button>
         </section>
 
         <hr className="divider" />
 
-        {/* Offering Section */}
         <section className="section-card">
           <h3>Add New Offering</h3>
           <div className="d-flex">
@@ -289,7 +257,6 @@ const AdminPanel = () => {
 
         <hr className="divider" />
 
-        {/* Product Upload Section */}
         <section className="section-card">
           <h3>Add Product</h3>
           <form onSubmit={submitProduct}>
@@ -310,7 +277,6 @@ const AdminPanel = () => {
 
         <hr className="divider" />
 
-        {/* Video Upload Section */}
         <section className="section-card">
           <h3>Upload Video</h3>
           <form onSubmit={submitVideo}>
@@ -327,6 +293,7 @@ const AdminPanel = () => {
             <button type="submit" className="btn btn-primary mt-2">Upload Video</button>
           </form>
         </section>
+
       </div>
     </div>
   );

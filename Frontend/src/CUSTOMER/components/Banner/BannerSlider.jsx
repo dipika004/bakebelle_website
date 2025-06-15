@@ -3,17 +3,19 @@ import axios from 'axios';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './BannerSlider.css';
 
 const BannerSlider = () => {
-  const [banners, setBanners] = useState([]);
+  const [largeBanners, setLargeBanners] = useState([]);
+  const [smallBanners, setSmallBanners] = useState([]);
 
   useEffect(() => {
     const fetchBanners = async () => {
       try {
         const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/banner');
-        console.log(response.data); // Check the response here
-        setBanners(response.data);
+        const allBanners = response.data || [];
+
+        setLargeBanners(allBanners.filter(b => b.device === 'large'));
+        setSmallBanners(allBanners.filter(b => b.device === 'small'));
       } catch (error) {
         console.error('Error fetching banners:', error);
       }
@@ -24,9 +26,9 @@ const BannerSlider = () => {
 
   const settings = {
     dots: true,
-    infinite: banners.length > 1, // Only allow infinite scroll if more than 1 banner
+    infinite: true,
     speed: 500,
-    autoplay: banners.length > 1, // Autoplay only if more than 1 banner
+    autoplay: true,
     autoplaySpeed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -34,19 +36,55 @@ const BannerSlider = () => {
   };
 
   return (
-    <div className="banner-slider">
-      {banners.length > 0 && (
-        <Slider {...settings}>
-          {banners.map((banner) => (
-            <div key={banner._id} className="banner">
-              <img
-                src={banner.image}
-                alt={banner.title || 'Banner'}
-                className="banner-image"
-              />
-            </div>
-          ))}
-        </Slider>
+    <div className="w-full">
+      {/* Large banner - visible on sm and up */}
+      {largeBanners.length > 0 && (
+        <div className="hidden sm:block">
+          {largeBanners.length === 1 ? (
+            <img
+              src={largeBanners[0].image}
+              alt="Large Banner"
+              className="w-full h-auto object-cover"
+            />
+          ) : (
+            <Slider {...settings}>
+              {largeBanners.map((banner, index) => (
+                <div key={index}>
+                  <img
+                    src={banner.image}
+                    alt={`Large Banner ${index + 1}`}
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              ))}
+            </Slider>
+          )}
+        </div>
+      )}
+
+      {/* Small banner - visible on mobile only */}
+      {smallBanners.length > 0 && (
+        <div className="block sm:hidden">
+          {smallBanners.length === 1 ? (
+            <img
+              src={smallBanners[0].image}
+              alt="Small Banner"
+              className="w-full h-auto object-cover"
+            />
+          ) : (
+            <Slider {...settings}>
+              {smallBanners.map((banner, index) => (
+                <div key={index}>
+                  <img
+                    src={banner.image}
+                    alt={`Small Banner ${index + 1}`}
+                    className="w-full h-auto object-cove"
+                  />
+                </div>
+              ))}
+            </Slider>
+          )}
+        </div>
       )}
     </div>
   );
