@@ -42,28 +42,32 @@ const BannerManagement = () => {
   };
 
   const submitUpdatedBanner = async (id) => {
-  const banner = newBanners[id];
-  const uploadSingleBanner = async (file, device) => {
-    const formData = new FormData();
-    formData.append('largeBanner', largeBannerFile);
-formData.append('smallBanner', smallBannerFile);
+    const banner = newBanners[id];
 
-    return axios.post('https://backend-thejaganbowl.onrender.com/api/banner', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
+    const uploadSingleBanner = async (file, device) => {
+      const formData = new FormData();
+      if (device === 'large') {
+        formData.append('largeBanner', file);
+      } else if (device === 'small') {
+        formData.append('smallBanner', file);
+      }
+
+      return axios.post('https://backend-thejaganbowl.onrender.com/api/banner', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+    };
+
+    try {
+      if (banner.largeFile) await uploadSingleBanner(banner.largeFile, 'large');
+      if (banner.smallFile) await uploadSingleBanner(banner.smallFile, 'small');
+
+      alert('Banner(s) uploaded successfully!');
+      fetchBanners();
+    } catch (error) {
+      console.error('Error uploading banner:', error);
+      alert('Failed to upload banner.');
+    }
   };
-
-  try {
-    if (banner.largeFile) await uploadSingleBanner(banner.largeFile, 'large');
-    if (banner.smallFile) await uploadSingleBanner(banner.smallFile, 'small');
-    alert('Banner(s) uploaded successfully!');
-    fetchBanners();
-  } catch (error) {
-    console.error('Error uploading banner:', error);
-    alert('Failed to upload banner.');
-  }
-};
-
 
   const deleteBanner = async (id) => {
     if (!window.confirm("Are you sure you want to delete this banner?")) return;
@@ -95,9 +99,7 @@ formData.append('smallBanner', smallBannerFile);
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) =>
-                  handleFileChange(e, banner._id, banner.device)
-                }
+                onChange={(e) => handleFileChange(e, banner._id, banner.device)}
                 className="w-full mt-2"
               />
 
