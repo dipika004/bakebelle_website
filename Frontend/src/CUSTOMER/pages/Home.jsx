@@ -91,7 +91,7 @@ const Home = () => {
     <>
       <div className="w-full">
         <BannerSlider />
-        <WhyChooseUs />
+        {/* <WhyChooseUs /> */}
         <VideoList />
 
 <section className="relative min-h-[60vh] flex items-center justify-center px-6 py-16 bg-gradient-to-br from-green-50 to-green-100 overflow-hidden">
