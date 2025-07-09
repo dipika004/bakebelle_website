@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
+import Footer from '../components/Footer/Footer';
 
 const OfferingPage = () => {
   const { slug } = useParams();
@@ -23,8 +24,9 @@ const OfferingPage = () => {
   }, [slug]);
 
   return (
+    <>
     <div className="max-w-7xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
         {slug} Products
       </h2>
 
@@ -55,6 +57,9 @@ const OfferingPage = () => {
         )}
       </div>
     </div>
+    {/* Footer Section */}
+    <Footer />
+    </>
   );
 };
 

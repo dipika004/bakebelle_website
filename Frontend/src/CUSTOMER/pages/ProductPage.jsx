@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import Footer from '../components/Footer/Footer';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -155,7 +156,11 @@ useEffect(() => {
           </div>
         </div>
       </div>
+
+      {/* Footer Section */}
+      <Footer />
     </>
+    
   );
 };
 
