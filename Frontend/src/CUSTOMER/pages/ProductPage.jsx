@@ -147,7 +147,7 @@ const ProductPage = () => {
               .map((item) => (
                 <div key={item._id}>
                   <Link
-                    to={`/product/${item._id}`}
+                    to={`/product/${item.slug}`}
                     className="block rounded-xl overflow-hidden bg-gray-50 shadow hover:shadow-lg transition-transform transform hover:-translate-y-1"
                   >
                     <img
