@@ -32,7 +32,7 @@ const OfferingPage = () => {
         {products.length > 0 ? (
           products.map((product) => (
             <Link
-              to={`/product/${product._id}`}
+              to={`/product/${product.slug}`}
               key={product._id}
               className="bg-white rounded-lg shadow hover:shadow-lg transition duration-200 overflow-hidden"
             >

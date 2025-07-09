@@ -19,7 +19,7 @@ const ProductPage = () => {
     };
 
     fetchProduct();
-  }, [id]);
+  }, [slug]);
 
   // useEffect(() => {
   //   const fetchMoreItems = async () => {
@@ -41,7 +41,7 @@ const ProductPage = () => {
       return;
     }
 
-    const slug = product.category.slug.toLowerCase(); // Now accessing slug properly
+    const categorySlug = product.category.slug.toLowerCase(); // Ensure slug is in lowercase
     console.log("📦 Category slug to fetch:", slug);
 
     try {
