@@ -33,7 +33,7 @@ const upload = multer({ storage: storage });
 router.get('/', async (req, res) => {
   try {
     const { category } = req.query;
-    const offering = await Offering.findOne({ slug: category });
+    const offering = await Offering.findOne({ slug: category }).select('_id slug');
     if (!offering) return res.status(404).json({ message: 'Offering not found' });
 
     const products = await Product.find({ category: offering._id });

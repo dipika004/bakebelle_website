@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const ProductPage = () => {
-  // const { id } = useParams();
   const {slug} = useParams(); // Using slug instead of id
   const [product, setProduct] = useState(null);
   const [moreItems, setMoreItems] = useState([]);
@@ -21,18 +20,7 @@ const ProductPage = () => {
     fetchProduct();
   }, [slug]);
 
-  // useEffect(() => {
-  //   const fetchMoreItems = async () => {
-  //     try {
-  //       const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products?category=breads`);
-  //       setMoreItems(res.data);
-  //     } catch (err) {
-  //       console.error('Error fetching more items:', err);
-  //     }
-  //   };
 
-  //   fetchMoreItems();
-  // }, []);
 
  useEffect(() => {
   const fetchMoreItems = async () => {
