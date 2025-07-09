@@ -3,14 +3,15 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const ProductPage = () => {
-  const { id } = useParams();
+  // const { id } = useParams();
+  const {slug} = useParams(); // Using slug instead of id
   const [product, setProduct] = useState(null);
   const [moreItems, setMoreItems] = useState([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products/${id}`);
+        const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products/slug/${slug}`); // Fetching product by slug
         setProduct(res.data);
       } catch (err) {
         console.error('Error fetching product:', err);
@@ -45,7 +46,7 @@ const ProductPage = () => {
 
     try {
       const res = await axios.get(
-        `https://backend-thejaganbowl.onrender.com/api/products?category=${encodeURIComponent(slug)}`
+        `https://backend-thejaganbowl.onrender.com/api/products?category=${encodeURIComponent(categorySlug)}`
       );
 
       const relatedItems = res.data.filter((item) => item._id !== product._id);
