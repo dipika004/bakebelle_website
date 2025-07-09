@@ -20,18 +20,46 @@ const ProductPage = () => {
     fetchProduct();
   }, [id]);
 
-  useEffect(() => {
-    const fetchMoreItems = async () => {
-      try {
-        const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products?category=breads`);
-        setMoreItems(res.data);
-      } catch (err) {
-        console.error('Error fetching more items:', err);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchMoreItems = async () => {
+  //     try {
+  //       const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products?category=breads`);
+  //       setMoreItems(res.data);
+  //     } catch (err) {
+  //       console.error('Error fetching more items:', err);
+  //     }
+  //   };
 
-    fetchMoreItems();
-  }, []);
+  //   fetchMoreItems();
+  // }, []);
+
+ useEffect(() => {
+  const fetchMoreItems = async () => {
+    if (!product || !product.category || !product.category.slug) {
+      console.warn("🚫 Product or category slug missing");
+      return;
+    }
+
+    const slug = product.category.slug.toLowerCase(); // Now accessing slug properly
+    console.log("📦 Category slug to fetch:", slug);
+
+    try {
+      const res = await axios.get(
+        `https://backend-thejaganbowl.onrender.com/api/products?category=${encodeURIComponent(slug)}`
+      );
+
+      const relatedItems = res.data.filter((item) => item._id !== product._id);
+      setMoreItems(relatedItems);
+    } catch (err) {
+      console.error("❌ Error fetching more items:", err);
+    }
+  };
+
+  fetchMoreItems();
+}, [product]);
+
+
+
 
   if (!product) return <div className="text-center py-24 text-gray-600 text-lg">Loading...</div>;
 
