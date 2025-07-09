@@ -16,13 +16,6 @@ const productSchema = new mongoose.Schema({
     ref: 'Offering', // Reference to the offerings collection
     required: true,
   },
-
-
-  slug:{
-    type: String,
-    unique: true,
-    required: true,
-  },
 });
 
 module.exports = mongoose.model('Product', productSchema);

@@ -5,7 +5,6 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const Product = require('../models/Product');
 const Offering = require('../models/offerings');
 const productValidator = require('../validators/productValidator');
-const slugify = require('slugify');
 
 const router = express.Router();
 
@@ -27,13 +26,13 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage: storage });
 
-// --------------------- ROUTES ----------------------
+// Routes
 
 // Get products by category slug
 router.get('/', async (req, res) => {
   try {
     const { category } = req.query;
-    const offering = await Offering.findOne({ slug: category }).select('_id slug');
+    const offering = await Offering.findOne({ slug: category });
     if (!offering) return res.status(404).json({ message: 'Offering not found' });
 
     const products = await Product.find({ category: offering._id });
@@ -82,24 +81,14 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Get product by slug (SEO URL)
-router.get('/slug/:slug', async (req, res) => {
-  try {
-    const product = await Product.findOne({ slug: req.params.slug }).populate('category');
-    if (!product) return res.status(404).json({ message: 'Product not found' });
-    res.json(product);
-  } catch (err) {
-    console.error('Error fetching product by slug:', err);
-    res.status(500).json({ message: 'Error fetching product' });
-  }
-});
-
 // Add new product with images
 router.post('/', upload.array('images', 10), async (req, res) => {
   try {
     const { title, price, description, category } = req.body;
 
-    const validation = productValidator.validate({ title, price, description, category });
+    // Validate fields except images & shoppingLinks
+    const validationObject = { title, price, description, category };
+    const validation = productValidator.validate(validationObject);
     if (validation.error) {
       return res.status(400).json({ message: validation.error.details[0].message });
     }
@@ -108,6 +97,7 @@ router.post('/', upload.array('images', 10), async (req, res) => {
       return res.status(400).json({ message: 'At least one image is required.' });
     }
 
+    // Parse shoppingLinks if provided
     let shoppingLinksObj = {};
     if (req.body.shoppingLinks) {
       try {
@@ -117,20 +107,19 @@ router.post('/', upload.array('images', 10), async (req, res) => {
       }
     }
 
+    // Check category existence
     const offering = await Offering.findById(category);
     if (!offering) {
       return res.status(404).json({ message: 'Category not found.' });
     }
 
-    const slug = slugify(title, { lower: true });
-
+    // Extract image URLs from Cloudinary upload
     const imageUrls = req.files.map(file => file.path);
 
     const newProduct = new Product({
       title,
       price,
       description,
-      slug,
       shoppingLinks: shoppingLinksObj,
       category: offering._id,
       images: imageUrls,
@@ -150,16 +139,19 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
     const { title, price, description, category, shoppingLinks } = req.body;
     const productId = req.params.id;
 
-    const validation = productValidator.validate({ title, price, description, category });
+    // Validate input
+    const validationObject = { title, price, description, category };
+    const validation = productValidator.validate(validationObject);
     if (validation.error) {
       return res.status(400).json({ message: validation.error.details[0].message });
     }
 
+    // Parse shoppingLinks if present
     let shoppingLinksObj = {};
     if (shoppingLinks) {
       try {
         shoppingLinksObj = JSON.parse(shoppingLinks);
-      } catch {
+      } catch (e) {
         return res.status(400).json({ message: 'Invalid shoppingLinks format.' });
       }
     }
@@ -170,12 +162,11 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
     const offering = await Offering.findById(category);
     if (!offering) return res.status(404).json({ message: 'Category not found.' });
 
+    // Update images only if new files uploaded, else keep existing
     let imageUrls = existingProduct.images;
     if (req.files && req.files.length > 0) {
       imageUrls = req.files.map(file => file.path);
     }
-
-    const slug = slugify(title, { lower: true });
 
     existingProduct.title = title;
     existingProduct.price = price;
@@ -183,7 +174,6 @@ router.put('/:id', upload.array('images', 10), async (req, res) => {
     existingProduct.shoppingLinks = shoppingLinksObj;
     existingProduct.category = offering._id;
     existingProduct.images = imageUrls;
-    existingProduct.slug = slug;
 
     const updatedProduct = await existingProduct.save();
     res.status(200).json(updatedProduct);
@@ -200,19 +190,23 @@ router.delete('/:id', async (req, res) => {
     const product = await Product.findById(productId);
     if (!product) return res.status(404).json({ message: 'Product not found' });
 
+    // Delete images from Cloudinary
     for (const imageUrl of product.images) {
+      // Extract public_id from URL
       const segments = imageUrl.split('/');
-      const fileName = segments[segments.length - 1];
+      const fileName = segments[segments.length - 1]; // e.g. 'public_id.jpg'
       const publicIdWithExtension = `product_images/${fileName}`;
-      const publicId = publicIdWithExtension.replace(/\.[^/.]+$/, '');
+      const publicId = publicIdWithExtension.replace(/\.[^/.]+$/, ""); // Remove extension
 
       try {
         await cloudinary.uploader.destroy(publicId);
       } catch (err) {
         console.error(`Failed to delete image ${publicId} from Cloudinary`, err);
+        // Continue deleting other images despite errors
       }
     }
 
+    // Delete product document
     await Product.deleteOne({ _id: productId });
     res.status(200).json({ message: 'Product deleted successfully!' });
   } catch (error) {

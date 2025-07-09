@@ -52,7 +52,7 @@ const PageWithNavbar = () => {
         {/* Customer Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/offerings/:slug" element={<OfferingPage />} />
-        <Route path="/product/:slug" element={<ProductPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/blog" element={<Blogs />} />
         <Route path="/where-to-order" element={<WhereToOrderFrom />} />

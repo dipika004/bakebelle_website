@@ -3,14 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const ProductPage = () => {
-  const {slug} = useParams(); // Using slug instead of id
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [moreItems, setMoreItems] = useState([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products/slug/${slug}`); // Fetching product by slug
+        const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products/${id}`);
         setProduct(res.data);
       } catch (err) {
         console.error('Error fetching product:', err);
@@ -18,23 +18,21 @@ const ProductPage = () => {
     };
 
     fetchProduct();
-  }, [slug]);
+  }, [id]);
 
-
-
- useEffect(() => {
+useEffect(() => {
   const fetchMoreItems = async () => {
     if (!product || !product.category || !product.category.slug) {
       console.warn("🚫 Product or category slug missing");
       return;
     }
 
-    const categorySlug = product.category.slug.toLowerCase(); // Ensure slug is in lowercase
+    const slug = product.category.slug.toLowerCase(); // Now accessing slug properly
     console.log("📦 Category slug to fetch:", slug);
 
     try {
       const res = await axios.get(
-        `https://backend-thejaganbowl.onrender.com/api/products?category=${encodeURIComponent(categorySlug)}`
+        `https://backend-thejaganbowl.onrender.com/api/products?category=${encodeURIComponent(slug)}`
       );
 
       const relatedItems = res.data.filter((item) => item._id !== product._id);
@@ -46,8 +44,6 @@ const ProductPage = () => {
 
   fetchMoreItems();
 }, [product]);
-
-
 
 
   if (!product) return <div className="text-center py-24 text-gray-600 text-lg">Loading...</div>;
@@ -135,7 +131,7 @@ const ProductPage = () => {
               .map((item) => (
                 <div key={item._id}>
                   <Link
-                    to={`/product/${item.slug}`}
+                    to={`/product/${item._id}`}
                     className="block rounded-xl overflow-hidden bg-gray-50 shadow hover:shadow-lg transition-transform transform hover:-translate-y-1"
                   >
                     <img

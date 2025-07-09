@@ -30,27 +30,24 @@ const OfferingPage = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {products.length > 0 ? (
-          products.map((product) => {
-  console.log("Product slug:", product.slug); // good now
-  return (
-    <Link
-      to={`/product/${product.slug}`}
-      key={product._id}
-      className="bg-white rounded-lg shadow hover:shadow-lg transition duration-200 overflow-hidden"
-    >
-      <img
-        src={product.images[0]}
-        alt={product.title}
-        className="w-full h-48 object-cover"
-      />
-      <div className="p-4">
-        <h5 className="text-lg font-semibold text-gray-900 text-center">
-          {product.title}
-        </h5>
-      </div>
-    </Link>
-  );
-})
+          products.map((product) => (
+            <Link
+              to={`/product/${product._id}`}
+              key={product._id}
+              className="bg-white rounded-lg shadow hover:shadow-lg transition duration-200 overflow-hidden"
+            >
+              <img
+                src={product.images[0]}
+                alt={product.title}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h5 className="text-lg font-semibold text-gray-900 text-center">
+                  {product.title}
+                </h5>
+              </div>
+            </Link>
+          ))
         ) : (
           <p className="text-center col-span-full text-gray-500">
             No products found for this offering.
