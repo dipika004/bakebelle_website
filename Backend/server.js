@@ -17,7 +17,7 @@ const port = process.env.PORT || 8080; // fallback if env not set
 
 // Middleware
 app.use(cors({
-   origin: ['http://localhost:5173', 'https://thejaganbowl.onrender.com']
+   origin: ['http://localhost:5173', 'https://bakebelle-website.onrender.com']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
