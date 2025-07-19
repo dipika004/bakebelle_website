@@ -9,7 +9,7 @@ const ViewVideos = () => {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/video');
+      const response = await axios.get('https://bakebelle-website.onrender.com/api/video');
       setVideos(response.data);
       setLoading(false);
     } catch (err) {
@@ -27,7 +27,7 @@ const ViewVideos = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`https://backend-thejaganbowl.onrender.com/api/video/${id}`);
+      await axios.delete(`https://bakebelle-website.onrender.com/api/video/${id}`);
       setVideos(videos.filter(video => video._id !== id));
       alert('Video deleted successfully!');
     } catch (err) {

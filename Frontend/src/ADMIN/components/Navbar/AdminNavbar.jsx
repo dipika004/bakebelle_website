@@ -22,7 +22,7 @@ const Navbar = () => {
 
   useEffect(() => {
     axios
-      .get('https://backend-thejaganbowl.onrender.com/api/offerings')
+      .get('https://bakebelle-website.onrender.com/api/offerings')
       .then((res) => setOfferings(res.data))
       .catch((err) => console.error(err));
   }, []);

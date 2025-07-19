@@ -33,7 +33,7 @@ const AdminPanel = () => {
 
   const fetchOfferings = async () => {
     try {
-      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/offerings');
+      const response = await axios.get('https://bakebelle-website.onrender.com/api/offerings');
       setOfferings(response.data);
     } catch (error) {
       console.error('Error fetching offerings:', error);
@@ -42,7 +42,7 @@ const AdminPanel = () => {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/video');
+      const response = await axios.get('https://bakebelle-website.onrender.com/api/video');
       setVideos(response.data);
     } catch (error) {
       console.error('Error fetching videos:', error);
@@ -81,7 +81,7 @@ const AdminPanel = () => {
     }
 
     try {
-      await axios.post('https://backend-thejaganbowl.onrender.com/api/products', formData, {
+      await axios.post('https://bakebelle-website.onrender.com/api/products', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Product added!');
@@ -101,7 +101,7 @@ const AdminPanel = () => {
   const addOffering = async () => {
     if (newOffering.trim()) {
       try {
-        await axios.post('https://backend-thejaganbowl.onrender.com/api/offerings', { name: newOffering });
+        await axios.post('https://bakebelle-website.onrender.com/api/offerings', { name: newOffering });
         setNewOffering('');
         fetchOfferings();
       } catch (error) {
@@ -114,7 +114,7 @@ const AdminPanel = () => {
     const newName = prompt('Enter new name:', name);
     if (newName) {
       try {
-        await axios.put(`https://backend-thejaganbowl.onrender.com/api/offerings/${id}`, { name: newName });
+        await axios.put(`https://bakebelle-website.onrender.com/api/offerings/${id}`, { name: newName });
         fetchOfferings();
       } catch (error) {
         console.error('Error updating offering:', error);
@@ -126,7 +126,7 @@ const AdminPanel = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this offering?');
     if (!confirmDelete) return;
     try {
-      await axios.delete(`https://backend-thejaganbowl.onrender.com/api/offerings/${id}`);
+      await axios.delete(`https://bakebelle-website.onrender.com/api/offerings/${id}`);
       alert('Offering and related products deleted successfully!');
       fetchOfferings();
     } catch (error) {
@@ -159,7 +159,7 @@ const AdminPanel = () => {
   if (smallBannerFile) formData.append('smallBanner', smallBannerFile);
 
   try {
-    await axios.post('https://backend-thejaganbowl.onrender.com/api/banner', formData, {
+    await axios.post('https://bakebelle-website.onrender.com/api/banner', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     alert('Banner(s) uploaded successfully!');
@@ -196,7 +196,7 @@ const AdminPanel = () => {
     formData.append('description', videoData.description);
 
     try {
-      await axios.post('https://backend-thejaganbowl.onrender.com/api/video', formData, {
+      await axios.post('https://bakebelle-website.onrender.com/api/video', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Video uploaded successfully!');

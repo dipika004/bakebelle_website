@@ -11,7 +11,7 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products/${id}`);
+        const res = await axios.get(`https://bakebelle-website.onrender.com/api/products/${id}`);
         setProduct(res.data);
       } catch (err) {
         console.error('Error fetching product:', err);
@@ -33,7 +33,7 @@ useEffect(() => {
 
     try {
       const res = await axios.get(
-        `https://backend-thejaganbowl.onrender.com/api/products?category=${encodeURIComponent(slug)}`
+        `https://bakebelle-website.onrender.com/api/products?category=${encodeURIComponent(slug)}`
       );
 
       const relatedItems = res.data.filter((item) => item._id !== product._id);

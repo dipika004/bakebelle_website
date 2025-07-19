@@ -16,7 +16,7 @@ const EditVideo = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get(`https://backend-thejaganbowl.onrender.com/api/video/${id}`)
+    axios.get(`https://bakebelle-website.onrender.com/api/video/${id}`)
       .then(response => {
         const { title, description } = response.data;
         setVideoData({ title, description });
@@ -48,7 +48,7 @@ const EditVideo = () => {
     }
 
     try {
-      await axios.put(`https://backend-thejaganbowl.onrender.com/api/video/${id}`, formData, {
+      await axios.put(`https://bakebelle-website.onrender.com/api/video/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

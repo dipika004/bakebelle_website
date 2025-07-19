@@ -65,7 +65,7 @@ const PartnerContactForm = () => {
     setLoading(true);
 
     try {
-      await axios.post('https://backend-thejaganbowl.onrender.com/api/partner-contact', formData);
+      await axios.post('https://bakebelle-website.onrender.com/api/partner-contact', formData);
 
       alert('Thank you for reaching out! We will get back to you soon.');
       setResponseType('success');

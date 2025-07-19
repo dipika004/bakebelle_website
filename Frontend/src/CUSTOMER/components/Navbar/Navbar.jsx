@@ -11,11 +11,11 @@ const Navbar = () => {
   const offeringsRef = useRef(null);
 
   useEffect(() => {
-    axios.get('https://backend-thejaganbowl.onrender.com/api/offerings')
+    axios.get('https://bakebelle-website.onrender.com/api/offerings')
       .then(response => setOfferings(response.data))
       .catch(error => console.error('Error fetching offerings:', error));
 
-    axios.get('https://backend-thejaganbowl.onrender.com/api/products')
+    axios.get('https://bakebelle-website.onrender.com/api/products')
       .then(response => setAllProducts(response.data))
       .catch(error => console.error('Error fetching products:', error));
   }, []);
