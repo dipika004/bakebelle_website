@@ -1,87 +1,58 @@
-import video from "../../assets/video.mp4";
 import Footer from "../components/Footer/Footer";
 
 export default function AboutUs() {
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-white py-16 px-6 md:px-20 text-gray-800 font-inter">
-        <h2 className="text-5xl font-bold text-center text-gray-900 mb-16 tracking-tight">
-          About <span className="text-blue-600">Us</span>
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-100 to-pink-50 py-16 px-6 md:px-20 text-rose-900 font-sans">
+        <h2 className="text-5xl font-extrabold text-center text-pink-700 mb-16 tracking-tight">
+          About <span className="text-yellow-500">BakeBelle</span>
         </h2>
 
-        {/* Vision */}
-        <section className="bg-white bg-opacity-80 backdrop-blur-xl shadow-xl rounded-3xl p-8 mb-10 max-w-4xl mx-auto">
-          <h3 className="text-2xl font-semibold text-blue-700 mb-2">🌟 Our Vision</h3>
+        {/* Our Sweet Beginning */}
+        <section className="bg-white/70 backdrop-blur-lg shadow-lg rounded-3xl p-8 mb-10 max-w-4xl mx-auto">
+          <h3 className="text-2xl font-semibold text-pink-600 mb-2">🎀 Our Sweet Beginning</h3>
           <p className="text-lg leading-relaxed">
-            To become India’s most trusted name for accessible, affordable, and truly healthy food
-            options — one bowl, one bite at a time.
+            At <strong>BakeBelle Bakery</strong>, every sprinkle has a story. What started as a cozy kitchen dream turned into a magical little oven where love rises with every bake.
+            From the very first cupcake to our bestselling almond croissants, every treat is made to warm hearts and fill tummies with joy.
           </p>
         </section>
 
-        {/* Mission */}
-        <section className="bg-white bg-opacity-80 backdrop-blur-xl shadow-xl rounded-3xl p-8 mb-10 max-w-4xl mx-auto">
-          <h3 className="text-2xl font-semibold text-blue-700 mb-2">🚀 Our Mission</h3>
+        {/* What We Bake with Love */}
+        <section className="bg-white/70 backdrop-blur-lg shadow-lg rounded-3xl p-8 mb-10 max-w-4xl mx-auto">
+          <h3 className="text-2xl font-semibold text-pink-600 mb-2">🍓 What We Bake with Love</h3>
           <p className="text-lg leading-relaxed">
-            To simplify healthy eating for every lifestyle — with honest ingredients, simple recipes,
-            and no compromises.
+            From melt-in-your-mouth cookies and fluffy cupcakes to golden sourdough loaves and dreamy fruit tarts — our bakery is a sweet symphony of textures and tastes.
+            Every bite is handcrafted with clean ingredients, a splash of whimsy, and a whole lot of heart. ✨
           </p>
         </section>
 
-        {/* Values */}
-        <section className="bg-white bg-opacity-80 backdrop-blur-xl shadow-xl rounded-3xl p-8 mb-10 max-w-4xl mx-auto">
-          <h3 className="text-2xl font-semibold text-blue-700 mb-4">💎 Our Values</h3>
+        {/* Our Baking Beliefs */}
+        <section className="bg-white/70 backdrop-blur-lg shadow-lg rounded-3xl p-8 mb-10 max-w-4xl mx-auto">
+          <h3 className="text-2xl font-semibold text-pink-600 mb-4">💗 What We Believe In</h3>
           <ul className="space-y-2 text-lg leading-relaxed pl-4 list-disc">
-            <li>Transparency</li>
-            <li>Natural Ingredients</li>
-            <li>Innovation in Wellness</li>
-            <li>Empowering Educated Choices</li>
+            <li>Magic happens when you bake with love</li>
+            <li>Wholesome ingredients = heavenly flavor</li>
+            <li>Sweetness should nourish your soul</li>
+            <li>Kindness, clarity, and care in every crumb</li>
           </ul>
         </section>
 
-        {/* Founder Note */}
-        <section className="bg-white bg-opacity-90 backdrop-blur-2xl shadow-2xl rounded-3xl p-10 mb-14 max-w-6xl mx-auto">
-          <h3 className="text-2xl font-semibold text-blue-700 mb-6">
-            ✍️ A Note from Dipika – Founder of <span className="text-blue-600">The Jagan Bowl</span>
-          </h3>
-          <div className="grid md:grid-cols-2 gap-8 items-start">
-            <video
-              src={video}
-              controls
-              className="w-full h-auto rounded-2xl shadow-lg"
-            />
-            <div className="text-lg leading-relaxed space-y-4">
-              <p>
-                Hi, I’m <strong>Dipika Sahoo</strong> — an engineer with a passion for health and mindful living.
-              </p>
-              <p>
-                While traveling, I saw how people often struggle to find truly healthy food. Busy professionals settle for convenience, and gym-goers consume “healthy-labeled” foods that aren’t actually nutritious.
-              </p>
-              <p>
-                That’s when the idea struck — to create real, wholesome food that’s accessible and convenient for everyone.
-              </p>
-              <p>
-                That’s how <strong>The Jagan Bowl</strong> was born. A brand rooted in the belief that small, consistent choices can lead to a healthier, happier life.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us */}
+        {/* Why Choose BakeBelle? */}
         <section className="max-w-6xl mx-auto mb-20">
-          <h3 className="text-3xl font-bold text-center text-blue-700 mb-10">💡 Why Choose Us?</h3>
+          <h3 className="text-3xl font-bold text-center text-pink-600 mb-10">🍰 Why Choose BakeBelle?</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              ["🌿", "No hidden sugars or preservatives"],
-              ["🌾", "Only real, whole ingredients"],
-              ["💡", "Built on real needs, not viral diets"],
-              ["🧠", "Born from observation, shaped by intention"],
+              ["🧁", "Bakes that melt hearts, not shelf life"],
+              ["🌼", "Only the fluffiest, realest ingredients"],
+              ["🎂", "Every creation tells a sweet story"],
+              ["💌", "Made with love, shared with joy"],
             ].map(([icon, text], index) => (
               <div
                 key={index}
-                className="bg-white bg-opacity-90 backdrop-blur-xl shadow-md rounded-2xl p-6 text-center transition transform hover:scale-105 hover:shadow-lg"
+                className="bg-white/80 backdrop-blur-xl shadow-md rounded-2xl p-6 text-center transition transform hover:scale-105 hover:shadow-lg"
               >
-                <div className="text-3xl mb-2">{icon}</div>
-                <p className="font-medium text-gray-700">{text}</p>
+                <div className="text-4xl mb-2">{icon}</div>
+                <p className="font-medium text-rose-800">{text}</p>
               </div>
             ))}
           </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../components/Footer/Footer';
 
 const stores = [
   {
@@ -20,30 +21,39 @@ const stores = [
 
 const WhereToOrderFrom = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100 flex flex-col items-center justify-center px-4 py-12">
-      <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-10 text-center">
-        You can order from:
+   <>
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-pink-100 py-16 px-6 flex flex-col items-center">
+      <h1 className="text-4xl font-bold text-rose-600 mb-12 text-center drop-shadow-md">
+        Where to Order Your Favorite Treats 🍰
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 w-full max-w-6xl">
         {stores.map(({ name, logo, url }) => (
           <a
             key={name}
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center justify-center bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 transform hover:scale-105"
+            className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 p-8 flex flex-col items-center justify-center border-2 border-transparent hover:border-rose-200"
           >
             <img
               src={logo}
               alt={`${name} logo`}
-              className="h-24 object-contain mb-4"
+              className="h-28 object-contain mb-6 drop-shadow-sm"
             />
-            <span className="text-lg font-semibold text-gray-700">{name}</span>
+            <span className="text-xl font-semibold text-gray-700">{name}</span>
           </a>
         ))}
       </div>
+
+      <p className="mt-16 text-lg text-gray-600 text-center max-w-xl">
+        We’ve partnered with trusted delivery platforms to bring our fresh baked
+        goodies straight to your door — fast, safe, and delicious!
+      </p>
     </div>
+    <Footer />
+   </>
+
   );
 };
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../../../assets/logo.png';
 import SearchBar from "../../components/SearchBar/SearchBar";
 
 const Navbar = () => {
@@ -46,13 +45,13 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50 px-4 sm:px-6 lg:px-8 py-3">
+    <nav className="bg-yellow-50 shadow-lg sticky top-0 z-50 px-4 sm:px-6 lg:px-8 py-4 border-b border-yellow-200">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
 
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-          <img src={logo} alt="Logo" className="w-12 h-12 object-contain" />
-          <span className="text-2xl font-bold text-gray-800 whitespace-nowrap">thejaganbowl</span>
+          {/* <img src={logo} alt="Logo" className="w-12 h-12 object-contain rounded-full shadow-sm" /> */}
+          <span className="text-2xl font-extrabold text-brown-800 font-serif">BakeBelle</span>
         </Link>
 
         {/* Search Bar (large screens only) */}
@@ -62,7 +61,7 @@ const Navbar = () => {
 
         {/* Hamburger for small/medium screens */}
         <button
-          className="lg:hidden text-gray-700 focus:outline-none ml-4"
+          className="lg:hidden text-brown-700 focus:outline-none ml-4"
           onClick={toggleMenu}
           aria-label="Toggle menu"
           aria-expanded={isMenuOpen}
@@ -78,15 +77,15 @@ const Navbar = () => {
 
         {/* Menu */}
         <div
-          className={`absolute top-full left-0 w-full bg-white shadow-md lg:static lg:shadow-none lg:w-auto lg:flex lg:items-center lg:gap-6 ${
+          className={`absolute top-full left-0 w-full bg-yellow-50 shadow-lg lg:static lg:shadow-none lg:bg-transparent lg:w-auto lg:flex lg:items-center lg:gap-6 transition-all duration-300 ${
             isMenuOpen ? 'block' : 'hidden'
           } lg:block`}
         >
-          <ul className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-6 text-gray-700 font-semibold text-lg px-4 py-4 lg:p-0 whitespace-nowrap">
+          <ul className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-6 text-brown-700 font-medium text-lg px-4 py-4 lg:p-0">
             <li>
               <Link
                 to="/"
-                className="block px-3 py-2 hover:text-green-600 focus:outline-none"
+                className="block px-4 py-2 hover:text-pink-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
@@ -98,7 +97,7 @@ const Navbar = () => {
               {/* Desktop */}
               <div className="hidden lg:block">
                 <button
-                  className="flex items-center px-3 py-2 hover:text-green-600 focus:outline-none"
+                  className="flex items-center px-4 py-2 hover:text-pink-600 transition-colors"
                   onClick={toggleOfferings}
                   type="button"
                 >
@@ -117,12 +116,12 @@ const Navbar = () => {
                 </button>
 
                 {isOfferingsOpen && (
-                  <div className="absolute left-0 top-full mt-2 bg-white shadow-lg rounded-md min-w-[180px] z-50">
+                  <div className="absolute left-0 top-full mt-2 bg-white shadow-lg rounded-xl py-2 min-w-[200px] z-50">
                     {offerings.map(offering => (
                       <Link
                         key={offering.id}
                         to={`/offerings/${offering.name}`}
-                        className="block px-5 py-3 text-base text-gray-800 hover:bg-gray-100"
+                        className="block px-5 py-3 text-gray-700 hover:bg-yellow-100 transition rounded-md"
                         onClick={handleOfferingClick}
                       >
                         {offering.name}
@@ -135,7 +134,7 @@ const Navbar = () => {
               {/* Mobile */}
               <div className="lg:hidden">
                 <button
-                  className="flex items-center justify-between w-full px-3 py-2 hover:text-green-600 focus:outline-none"
+                  className="flex items-center justify-between w-full px-3 py-2 hover:text-pink-600 transition"
                   onClick={toggleOfferings}
                   aria-expanded={isOfferingsOpen}
                   type="button"
@@ -154,12 +153,12 @@ const Navbar = () => {
                   </svg>
                 </button>
                 {isOfferingsOpen && (
-                  <div className="pl-4 border-l border-gray-300 mt-1">
+                  <div className="pl-4 border-l border-yellow-300 mt-1">
                     {offerings.map(offering => (
                       <Link
                         key={offering.id}
                         to={`/offerings/${offering.name}`}
-                        className="block px-3 py-2 text-base text-gray-800 hover:bg-gray-100 rounded"
+                        className="block px-3 py-2 text-base text-gray-800 hover:bg-yellow-100 transition rounded"
                         onClick={handleOfferingClick}
                       >
                         {offering.name}
@@ -173,28 +172,17 @@ const Navbar = () => {
             <li>
               <Link
                 to="/about-us"
-                className="block px-3 py-2 hover:text-green-600 focus:outline-none"
+                className="block px-4 py-2 hover:text-pink-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 About Us
               </Link>
             </li>
 
-            {/* Optional Future Blog */}
-            {/* <li>
-              <Link
-                to="/blog"
-                className="block px-3 py-2 hover:text-green-600 focus:outline-none"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Blog
-              </Link>
-            </li> */}
-
             <li>
               <Link
                 to="/where-to-order"
-                className="block px-3 py-2 hover:text-green-600 focus:outline-none"
+                className="block px-4 py-2 hover:text-pink-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Where To Order
@@ -204,20 +192,10 @@ const Navbar = () => {
             <li>
               <Link
                 to="/contact"
-                className="block px-3 py-2 hover:text-green-600 focus:outline-none"
+                className="block px-4 py-2 hover:text-pink-600 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/know-yourself"
-                className="block px-3 py-2 hover:text-green-600 focus:outline-none"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Know Yourself
               </Link>
             </li>
           </ul>

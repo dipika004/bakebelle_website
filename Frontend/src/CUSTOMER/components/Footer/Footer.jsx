@@ -22,7 +22,7 @@ export default function Footer() {
     try {
       const response = await axios.post('https://backend-thejaganbowl.onrender.com/api/subscribe', { email });
       setMessage(response.data.message);
-      setMessageClass('text-green-600');
+      setMessageClass('text-pink-600');
 
       const code = window.prompt("Enter the verification code sent to your email:");
 
@@ -54,7 +54,7 @@ export default function Footer() {
 
       if (response.status === 200 && response.data.message.toLowerCase().includes('verified')) {
         setMessage(response.data.message);
-        setMessageClass('text-green-600');
+        setMessageClass('text-pink-600');
         setShowPopup(true);
         setEmail('');
 
@@ -79,30 +79,29 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gray-100 text-gray-800 py-12 mt-10 border-t border-gray-200">
+    <footer className="bg-pink-50 text-gray-800 py-12 mt-10 border-t border-pink-100">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-10">
         <div>
-          <h3 className="text-2xl font-bold mb-2">The Jagan Bowl</h3>
+          <h3 className="text-2xl font-bold mb-2 text-pink-700">BakeBelle</h3>
           <p className="text-sm text-gray-600">
-            Healthy twists on everyday cravings.<br />
-            Small changes, big results.
+            Sweet cravings with a touch of love.<br />
+            Bakes that warm your heart 💕
           </p>
         </div>
 
         <div>
-          <h4 className="text-xl font-semibold mb-3">Services</h4>
+          <h4 className="text-xl font-semibold mb-3 text-pink-800">Explore</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link to="/" className="hover:text-green-600">Home</Link></li>
-            <li><Link to="/offerings" className="hover:text-green-600">Offerings</Link></li>
-            {/* <li><Link to="/blogs" className="hover:text-green-600">Blogs</Link></li> */}
-            <li><Link to="/about" className="hover:text-green-600">About Us</Link></li>
-            <li><Link to="/order" className="hover:text-green-600">Where to Order</Link></li>
-            <li><Link to="/contact" className="hover:text-green-600">Contact</Link></li>
+            <li><Link to="/" className="hover:text-pink-600">Home</Link></li>
+            <li><Link to="/offerings" className="hover:text-pink-600">Menu</Link></li>
+            <li><Link to="/about-us" className="hover:text-pink-600">About Us</Link></li>
+            <li><Link to="/where-to-order" className="hover:text-pink-600">Where to Order</Link></li>
+            <li><Link to="/contact" className="hover:text-pink-600">Contact</Link></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="text-xl font-semibold mb-3">Follow Us</h4>
+          <h4 className="text-xl font-semibold mb-3 text-pink-800">Follow Us</h4>
           <div className="flex space-x-4 text-gray-600 mb-4">
             <a href="#" aria-label="Instagram"><FontAwesomeIcon icon={faInstagram} size="lg" /></a>
             <a href="#" aria-label="Facebook"><FontAwesomeIcon icon={faFacebook} size="lg" /></a>
@@ -110,19 +109,19 @@ export default function Footer() {
           </div>
 
           <div>
-            <h5 className="font-semibold text-sm mb-2">Subscribe to our Newsletter</h5>
+            <h5 className="font-semibold text-sm mb-2">Subscribe for Yummy Updates</h5>
             <input
               type="email"
               placeholder="Enter your email"
-              className="w-full px-3 py-2 border border-gray-300 rounded mb-2 text-sm"
+              className="w-full px-3 py-2 border border-pink-300 rounded mb-2 text-sm"
               value={email}
               onChange={handleEmailChange}
             />
             <button
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded text-sm"
+              className="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded text-sm transition"
               onClick={handleSubscribe}
             >
-              Subscribe
+              Subscribe 💌
             </button>
           </div>
 
@@ -135,7 +134,7 @@ export default function Footer() {
                   <strong>Thank You!</strong>
                   <button className="text-gray-500 hover:text-gray-700" onClick={closePopup}>&times;</button>
                 </div>
-                <p className="text-sm">You are now subscribed to receive updates.</p>
+                <p className="text-sm">You’re now subscribed to the BakeBelle family!</p>
               </div>
             </div>
           )}
@@ -143,57 +142,9 @@ export default function Footer() {
       </div>
 
       <div className="mt-10 text-center text-sm text-gray-500">
-        <p>&copy; {new Date().getFullYear()} Jagan Enterprises. All rights reserved.</p>
-        <p>“The Jagan Bowl” is a brand of <strong>Pikabelle Enterprises</strong>.</p>
+        <p>&copy; {new Date().getFullYear()} BakeBelle Enterprises. All rights reserved.</p>
+        <p>“BakeBelle” is a brand of <strong>Pikabelle Enterprises</strong>.</p>
       </div>
     </footer>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

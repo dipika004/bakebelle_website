@@ -94,33 +94,33 @@ const Home = () => {
         {/* <WhyChooseUs /> */}
         <VideoList />
 
-<section className="relative min-h-[60vh] flex items-center justify-center px-6 py-16 bg-gradient-to-br from-green-50 to-green-100 overflow-hidden">
+<section className="relative min-h-[60vh] flex items-center justify-center px-6 py-16 bg-gradient-to-br from-pink-50 to-yellow-100 overflow-hidden">
   {/* Decorative blurred background shape */}
-  <div className="absolute w-72 h-72 bg-green-200 rounded-full blur-3xl opacity-30 top-[-50px] right-[-50px]"></div>
+  <div className="absolute w-72 h-72 bg-pink-200 rounded-full blur-3xl opacity-30 top-[-50px] right-[-50px]"></div>
 
-  <div className="bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl max-w-2xl w-full text-center animate-fadeIn border border-green-200">
-    <h2 className="text-4xl md:text-5xl font-bold text-green-700 mb-2">
-      🌱 Coming Soon
+  <div className="bg-white/60 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl max-w-2xl w-full text-center animate-fadeIn border border-pink-200">
+    <h2 className="text-4xl md:text-5xl font-bold text-pink-700 mb-2">
+      🍰 Coming Soon
     </h2>
-    <h3 className="text-2xl md:text-3xl font-semibold text-green-800 mb-4">
-      Varieties of Healthy Snacks!
+    <h3 className="text-2xl md:text-3xl font-semibold text-pink-800 mb-4">
+      Sweet Treats & Baked Delights!
     </h3>
     <p className="text-gray-700 text-lg mb-6">
-      Stay tuned for our upcoming guilt-free delights – nutritious, delicious & crafted just for you!
+      Get ready for handcrafted cupcakes, cookies, and dreamy desserts made with love! 💕
     </p>
 
-    <h5 className="font-medium text-gray-800">Be the first to know – Subscribe now!</h5>
+    <h5 className="font-medium text-gray-800">Want first taste? Subscribe below!</h5>
 
     <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-4">
       <input
         type="email"
-        className="w-full sm:w-2/3 px-4 py-2 border border-green-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm"
+        className="w-full sm:w-2/3 px-4 py-2 border border-pink-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300 shadow-sm"
         placeholder="Enter your email"
         value={email}
         onChange={handleEmailChange}
       />
       <button
-        className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-xl shadow-md transition"
+        className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-xl shadow-md transition"
         onClick={handleSubscribe}
       >
         Notify Me
@@ -145,7 +145,6 @@ const Home = () => {
     }
   `}</style>
 </section>
-
       </div>
 
       <Footer />

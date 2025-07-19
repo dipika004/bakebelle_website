@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mail, Users, Send } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
+import Footer from '../components/Footer/Footer';
 
 // Define Button, Card, and other components directly
 const Button = ({ className, onClick, children }) => {
@@ -46,6 +46,7 @@ const Contact = () => {
   const openForm = (url) => window.open(url, '_blank');
 
   return (
+    <>
     <div
       className={cn(
         'min-h-screen flex flex-col items-center justify-center',
@@ -143,9 +144,14 @@ const Contact = () => {
               </Button>
             </CardContent>
           </Card>
+          
         </div>
+   
       </div>
+    
     </div>
+    <Footer />
+    </>
   );
 };
 
