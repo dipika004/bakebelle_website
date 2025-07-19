@@ -2,6 +2,13 @@
 
 **Live Site**: https://bakebelle.onrender.com
 
+**Admin Site**: https://bakebelle.onrender.com/dipika-2004/login
+
+### Admin Access
+Username: admin
+
+Password: 123
+
 **Tech Stack**: React, Node.js, Express, MongoDB, Tailwind CSS
 
 ## 🧁 About the Project
