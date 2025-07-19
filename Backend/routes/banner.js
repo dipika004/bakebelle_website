@@ -35,19 +35,15 @@ router.get('/', async (req, res) => {
 
 // POST create/upload a new banner
 router.post('/', upload.fields([
-  { name: 'largeBanner' , maxCount: 1 }, 
-  { name: 'smallBanner' , maxCount: 1 }
-]), 
-
-async (req, res) => {
+  { name: 'largeBanner' }, 
+  { name: 'smallBanner' }
+]), async (req, res) => {
   try {
-    console.log("Received files:", req.files);
-    console.log("Request body:", req.body);
-    const largeFile = req.files?.largeBanner?.[0];
-    const smallFile = req.files?.smallBanner?.[0];
+    const largeFile = req.files['largeBanner']?.[0];
+    const smallFile = req.files['smallBanner']?.[0];
 
     if (!largeFile || !smallFile) {
-      return res.status(400).json({ message: "Both banners required" , files: req.files });
+      return res.status(400).json({ message: "Both banners required" });
     }
 
     console.log("Uploaded to Cloudinary:", {
