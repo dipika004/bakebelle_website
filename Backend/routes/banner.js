@@ -34,47 +34,67 @@ router.get('/', async (req, res) => {
 });
 
 // POST create/upload a new banner
-router.post('/', upload.fields([
-  { name: 'largeBanner' }, 
-  { name: 'smallBanner' }
-]), async (req, res) => {
-  try {
-    const largeFile = req.files['largeBanner']?.[0];
-    const smallFile = req.files['smallBanner']?.[0];
+router.post(
+  '/',
+  upload.fields([
+    { name: 'largeBanner' },
+    { name: 'smallBanner' }
+  ]),
+  async (req, res) => {
+    try {
+      const largeFile = req.files['largeBanner']?.[0];
+      const smallFile = req.files['smallBanner']?.[0];
 
-    if (!largeFile || !smallFile) {
-      return res.status(400).json({ message: "Both banners required" });
+      // Check how many banners are already in DB
+      const existingBanners = await Banner.find();
+      const hasExistingLarge = existingBanners.some(b => b.device === 'large');
+      const hasExistingSmall = existingBanners.some(b => b.device === 'small');
+
+      // If no banners exist, require both
+      if (existingBanners.length === 0 && (!largeFile || !smallFile)) {
+        return res.status(400).json({
+          message: "Both large and small banners are required for the first upload."
+        });
+      }
+
+      const uploads = [];
+
+      if (largeFile) {
+        uploads.push(
+          new Banner({
+            image: largeFile.path,
+            public_id: largeFile.filename,
+            device: 'large',
+          }).save()
+        );
+      }
+
+      if (smallFile) {
+        uploads.push(
+          new Banner({
+            image: smallFile.path,
+            public_id: smallFile.filename,
+            device: 'small',
+          }).save()
+        );
+      }
+
+      if (uploads.length === 0) {
+        return res.status(400).json({
+          message: "No new banner images were uploaded."
+        });
+      }
+
+      await Promise.all(uploads);
+
+      res.status(200).json({ message: 'Banner(s) uploaded successfully!' });
+    } catch (error) {
+      console.error('❌ Banner Upload Error:', error);
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
-
-    console.log("Uploaded to Cloudinary:", {
-      largeURL: largeFile.path,
-      largePublicId: largeFile.filename,
-      smallURL: smallFile.path,
-      smallPublicId: smallFile.filename
-    });
-
-    const largeBanner = new Banner({
-      image: largeFile.path,
-      public_id: largeFile.filename,
-      device: 'large',
-    });
-
-    const smallBanner = new Banner({
-      image: smallFile.path,
-      public_id: smallFile.filename,
-      device: 'small',
-    });
-
-    await largeBanner.save();
-    await smallBanner.save();
-
-    res.status(200).json({ message: 'Both banners uploaded successfully!' });
-
-  } catch (error) {
-    console.error('❌ Banner Upload Error:', error);
-    res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
-});
+);
+
 
 // PUT update banner
 router.put('/:id', upload.single('banner'), async (req, res) => {
