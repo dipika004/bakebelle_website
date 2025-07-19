@@ -215,11 +215,11 @@ const AdminPanel = () => {
           <h3>Upload Homepage Banners</h3>
 
           <label>Large Screen Banner</label>
-          <input type="file" accept="image/*" onChange={(e) => handleBannerUpload(e, 'large')} className="file-input" />
+          <input name="largeBanner" type="file" accept="image/*" onChange={(e) => handleBannerUpload(e, 'large')} className="file-input" />
           {bannerPreview.large && <div className="banner-preview"><img src={bannerPreview.large} alt="Large Banner Preview" /></div>}
 
           <label>Small Screen Banner</label>
-          <input type="file" accept="image/*" onChange={(e) => handleBannerUpload(e, 'small')} className="file-input" />
+          <input name="smallBanner" type="file" accept="image/*" onChange={(e) => handleBannerUpload(e, 'small')} className="file-input" />
           {bannerPreview.small && <div className="banner-preview"><img src={bannerPreview.small} alt="Small Banner Preview" /></div>}
 
           <button className="btn btn-primary mt-2" onClick={submitBanner}>Upload Banners</button>
