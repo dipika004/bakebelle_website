@@ -1,6 +1,7 @@
 # 🍰 BakeBelle – Bakery Portfolio Website
 
-**Live Site**: 
+**Live Site**: https://bakebelle.onrender.com
+
 **Tech Stack**: React, Node.js, Express, MongoDB, Tailwind CSS
 
 ## 🧁 About the Project
