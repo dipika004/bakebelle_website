@@ -21,18 +21,23 @@ const BannerManagement = () => {
           preview: null
         };
       });
+
+      // Also setup empty state for first-time upload
+      initialNewBanners.large = { file: null, preview: null };
+      initialNewBanners.small = { file: null, preview: null };
+
       setNewBanners(initialNewBanners);
     } catch (error) {
       console.error('Error fetching banners:', error);
     }
   };
 
-  const handleFileChange = (e, bannerId) => {
+  const handleFileChange = (e, idOrDevice) => {
     const file = e.target.files[0];
     setNewBanners(prev => ({
       ...prev,
-      [bannerId]: {
-        ...prev[bannerId],
+      [idOrDevice]: {
+        ...prev[idOrDevice],
         file,
         preview: file ? URL.createObjectURL(file) : null,
       },
@@ -40,29 +45,29 @@ const BannerManagement = () => {
   };
 
   const submitUpdatedBanner = async (id, device) => {
-  const banner = newBanners[id];
-  if (!banner.file) {
-    alert('No new image selected.');
-    return;
-  }
+    const banner = newBanners[id];
+    if (!banner.file) {
+      alert('No new image selected.');
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append('banner', banner.file); // 👈 single file field expected by backend
-  formData.append('device', device);      // Optional: If device might change
-  formData.append('title', '');           // Optional: Pass a title if needed
+    const formData = new FormData();
+    formData.append('banner', banner.file);
+    formData.append('device', device);
+    formData.append('title', ''); // Assuming title is optional
 
-  try {
-    await axios.put(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
+    try {
+      await axios.put(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
 
-    alert('Banner updated successfully!');
-    fetchBanners();
-  } catch (error) {
-    console.error('❌ Error updating banner:', error.response?.data || error.message);
-    alert('Failed to update banner.');
-  }
-};
+      alert('Banner updated successfully!');
+      fetchBanners();
+    } catch (error) {
+      console.error('❌ Error updating banner:', error.response?.data || error.message);
+      alert('Failed to update banner.');
+    }
+  };
 
   const deleteBanner = async (id) => {
     if (!window.confirm("Are you sure you want to delete this banner?")) return;
@@ -74,6 +79,31 @@ const BannerManagement = () => {
     } catch (error) {
       console.error('Error deleting banner:', error);
       alert('Failed to delete banner.');
+    }
+  };
+
+  const submitNewBanners = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    if (newBanners.large?.file) formData.append('largeBanner', newBanners.large.file);
+    if (newBanners.small?.file) formData.append('smallBanner', newBanners.small.file);
+
+    if (!newBanners.large?.file && !newBanners.small?.file) {
+      alert('Please select at least one banner.');
+      return;
+    }
+
+    try {
+      await axios.post('https://backend-thejaganbowl.onrender.com/api/banner', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      alert('Banner(s) uploaded successfully!');
+      fetchBanners();
+    } catch (error) {
+      console.error('Error uploading new banners:', error);
+      alert('Failed to upload banners.');
     }
   };
 
@@ -134,7 +164,39 @@ const BannerManagement = () => {
           ))}
         </div>
       ) : (
-        <p className="text-center text-gray-500">No banners uploaded yet.</p>
+        <div className="text-center text-gray-500">
+          <p className="mb-4">No banners uploaded yet. Please upload at least one banner.</p>
+          <form onSubmit={submitNewBanners} className="space-y-6">
+            <div>
+              <label className="block font-medium mb-1">Large Banner</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleFileChange(e, 'large')}
+              />
+              {newBanners.large?.preview && (
+                <img src={newBanners.large.preview} alt="Preview" className="mt-2 max-h-64 mx-auto" />
+              )}
+            </div>
+            <div>
+              <label className="block font-medium mb-1">Small Banner</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleFileChange(e, 'small')}
+              />
+              {newBanners.small?.preview && (
+                <img src={newBanners.small.preview} alt="Preview" className="mt-2 max-h-64 mx-auto" />
+              )}
+            </div>
+            <button
+              type="submit"
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg"
+            >
+              Upload Banner(s)
+            </button>
+          </form>
+        </div>
       )}
     </div>
   );

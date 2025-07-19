@@ -39,6 +39,8 @@ router.post('/', upload.fields([
   { name: 'smallBanner' }
 ]), async (req, res) => {
   try {
+    console.log("FILES RECEIVED:", req.files); // 🔍 Debug log
+
     const existingBanners = await Banner.find();
     const largeExists = existingBanners.some(b => b.device === 'large');
     const smallExists = existingBanners.some(b => b.device === 'small');
@@ -46,12 +48,10 @@ router.post('/', upload.fields([
     const largeFile = req.files['largeBanner']?.[0];
     const smallFile = req.files['smallBanner']?.[0];
 
-    // Case 1: No banners exist yet, both required
     if (!largeExists && !smallExists && (!largeFile || !smallFile)) {
       return res.status(400).json({ message: "Both banners (large and small) are required initially." });
     }
 
-    // Case 2: Skip if already uploaded
     const bannersToSave = [];
 
     if (largeFile && !largeExists) {
@@ -74,15 +74,13 @@ router.post('/', upload.fields([
       return res.status(400).json({ message: "Nothing new to upload or banners already exist." });
     }
 
-    // Save banners
     for (const banner of bannersToSave) {
       await banner.save();
     }
 
     res.status(200).json({ message: 'Banner(s) uploaded successfully.' });
-
   } catch (error) {
-    console.error('❌ Banner Upload Error:', error);
+    console.error('❌ Banner Upload Error:', error); // 🔍 Logs exact error
     res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 });
