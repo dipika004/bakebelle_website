@@ -4,6 +4,7 @@ import axios from 'axios';
 const BannerManagement = () => {
   const [banners, setBanners] = useState([]);
   const [newBanners, setNewBanners] = useState({});
+  const [uploadData, setUploadData] = useState({ large: null, small: null });
 
   useEffect(() => {
     fetchBanners();
@@ -40,29 +41,29 @@ const BannerManagement = () => {
   };
 
   const submitUpdatedBanner = async (id, device) => {
-  const banner = newBanners[id];
-  if (!banner.file) {
-    alert('No new image selected.');
-    return;
-  }
+    const banner = newBanners[id];
+    if (!banner.file) {
+      alert('No new image selected.');
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append('banner', banner.file); // 👈 single file field expected by backend
-  formData.append('device', device);      // Optional: If device might change
-  formData.append('title', '');           // Optional: Pass a title if needed
+    const formData = new FormData();
+    formData.append('banner', banner.file);
+    formData.append('device', device);
+    formData.append('title', '');
 
-  try {
-    await axios.put(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
+    try {
+      await axios.put(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
 
-    alert('Banner updated successfully!');
-    fetchBanners();
-  } catch (error) {
-    console.error('❌ Error updating banner:', error.response?.data || error.message);
-    alert('Failed to update banner.');
-  }
-};
+      alert('Banner updated successfully!');
+      fetchBanners();
+    } catch (error) {
+      console.error('❌ Error updating banner:', error.response?.data || error.message);
+      alert('Failed to update banner.');
+    }
+  };
 
   const deleteBanner = async (id) => {
     if (!window.confirm("Are you sure you want to delete this banner?")) return;
@@ -77,9 +78,53 @@ const BannerManagement = () => {
     }
   };
 
+  const handleNewBannerUpload = async () => {
+    if (!uploadData.large || !uploadData.small) {
+      alert("Please upload both large and small banners.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("largeBanner", uploadData.large);
+    formData.append("smallBanner", uploadData.small);
+
+    try {
+      const res = await axios.post("https://backend-thejaganbowl.onrender.com/api/banner", formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      alert("New banners uploaded!");
+      setUploadData({ large: null, small: null });
+      fetchBanners();
+    } catch (err) {
+      console.error("❌ Error uploading new banners:", err.response?.data || err.message);
+      alert("Upload failed.");
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto p-6">
       <h2 className="text-3xl font-bold mb-6 text-center">Banner Management</h2>
+
+      {/* New Upload Section */}
+      <div className="mb-10 border border-dashed border-gray-400 p-4 rounded-lg">
+        <h3 className="font-semibold mb-3">Upload New Banners</h3>
+        <div className="flex flex-col gap-4 md:flex-row">
+          <div className="flex-1">
+            <label className="block text-sm font-medium mb-1">Large Banner:</label>
+            <input type="file" accept="image/*" onChange={(e) => setUploadData(prev => ({ ...prev, large: e.target.files[0] }))} />
+          </div>
+          <div className="flex-1">
+            <label className="block text-sm font-medium mb-1">Small Banner:</label>
+            <input type="file" accept="image/*" onChange={(e) => setUploadData(prev => ({ ...prev, small: e.target.files[0] }))} />
+          </div>
+        </div>
+        <button
+          onClick={handleNewBannerUpload}
+          className="mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+        >
+          Upload Banners
+        </button>
+      </div>
 
       {banners.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
