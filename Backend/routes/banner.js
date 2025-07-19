@@ -45,12 +45,13 @@ router.post(
       const largeFile = req.files['largeBanner']?.[0];
       const smallFile = req.files['smallBanner']?.[0];
 
-      // Check how many banners are already in DB
+      console.log("🧾 largeFile:", largeFile);
+      console.log("🧾 smallFile:", smallFile);
+
       const existingBanners = await Banner.find();
       const hasExistingLarge = existingBanners.some(b => b.device === 'large');
       const hasExistingSmall = existingBanners.some(b => b.device === 'small');
 
-      // If no banners exist, require both
       if (existingBanners.length === 0 && (!largeFile || !smallFile)) {
         return res.status(400).json({
           message: "Both large and small banners are required for the first upload."
@@ -59,21 +60,21 @@ router.post(
 
       const uploads = [];
 
-      if (largeFile) {
+      if (largeFile && !hasExistingLarge) {
         uploads.push(
           new Banner({
             image: largeFile.path,
-            public_id: largeFile.filename,
+            public_id: largeFile.filename || largeFile.originalname,
             device: 'large',
           }).save()
         );
       }
 
-      if (smallFile) {
+      if (smallFile && !hasExistingSmall) {
         uploads.push(
           new Banner({
             image: smallFile.path,
-            public_id: smallFile.filename,
+            public_id: smallFile.filename || smallFile.originalname,
             device: 'small',
           }).save()
         );
@@ -81,7 +82,7 @@ router.post(
 
       if (uploads.length === 0) {
         return res.status(400).json({
-          message: "No new banner images were uploaded."
+          message: "No new banner images were uploaded or already exist."
         });
       }
 
@@ -90,6 +91,7 @@ router.post(
       res.status(200).json({ message: 'Banner(s) uploaded successfully!' });
     } catch (error) {
       console.error('❌ Banner Upload Error:', error);
+      console.error('❌ Stack Trace:', error.stack);
       res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
   }
