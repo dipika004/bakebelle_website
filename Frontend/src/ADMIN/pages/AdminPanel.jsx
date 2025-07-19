@@ -149,27 +149,28 @@ const AdminPanel = () => {
   };
 
   const submitBanner = async () => {
-    if (!largeBannerFile && !smallBannerFile) {
-      alert('Please select at least one banner image.');
-      return;
-    }
+  if (!largeBannerFile && !smallBannerFile) {
+    alert('Please select at least one banner image.');
+    return;
+  }
 
-    const formData = new FormData();
-    if (largeBannerFile) formData.append('banner', largeBannerFile, 'large.jpg');
-    if (smallBannerFile) formData.append('banner', smallBannerFile, 'small.jpg');
+  const formData = new FormData();
+  if (largeBannerFile) formData.append('largeBanner', largeBannerFile);
+  if (smallBannerFile) formData.append('smallBanner', smallBannerFile);
 
-    try {
-      await axios.post('https://backend-thejaganbowl.onrender.com/api/banner', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      alert('Banner(s) uploaded successfully!');
-      setLargeBannerFile(null);
-      setSmallBannerFile(null);
-      setBannerPreview({ large: null, small: null });
-    } catch (error) {
-      console.error('Error uploading banner:', error);
-    }
-  };
+  try {
+    await axios.post('https://backend-thejaganbowl.onrender.com/api/banner', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    alert('Banner(s) uploaded successfully!');
+    setLargeBannerFile(null);
+    setSmallBannerFile(null);
+    setBannerPreview({ large: null, small: null });
+  } catch (error) {
+    console.error('Error uploading banner:', error);
+  }
+};
+
 
   const handleVideoChange = (e) => {
     const { name, value, files } = e.target;
