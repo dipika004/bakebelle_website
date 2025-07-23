@@ -22,7 +22,7 @@ const AdminProductPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`https://bakebelle-website.onrender.com/api/products/${id}`);
+        const res = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products/${id}`);
         setProduct(res.data);
         setFormData({
           title: res.data.title,
@@ -45,7 +45,7 @@ const AdminProductPage = () => {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await axios.delete(`https://bakebelle-website.onrender.com/api/products/${id}`);
+        await axios.delete(`https://backend-thejaganbowl.onrender.com/api/products/${id}`);
         alert('Product deleted successfully!');
         navigate('/dipika-2004');
       } catch (err) {

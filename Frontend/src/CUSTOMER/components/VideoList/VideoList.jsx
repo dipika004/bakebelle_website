@@ -7,7 +7,7 @@ const VideoList = () => {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get('https://bakebelle-website.onrender.com/api/video');
+      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/video');
       setVideos(response.data);
     } catch (error) {
       console.error('Error fetching videos:', error);

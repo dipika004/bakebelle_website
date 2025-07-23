@@ -23,7 +23,7 @@ const SearchBar = () => {
   // Debounced search
   const fetchResults = (searchQuery) => {
     axios
-      .get(`https://bakebelle-website.onrender.com/api/products/search?query=${searchQuery}`)
+      .get(`https://backend-thejaganbowl.onrender.com/api/products/search?query=${searchQuery}`)
       .then((res) => {
         setResults(res.data);
         setShowDropdown(true);

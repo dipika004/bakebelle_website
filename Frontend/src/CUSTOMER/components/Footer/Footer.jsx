@@ -20,7 +20,7 @@ export default function Footer() {
     }
 
     try {
-      const response = await axios.post('https://bakebelle-website.onrender.com/api/subscribe', { email });
+      const response = await axios.post('https://backend-thejaganbowl.onrender.com/api/subscribe', { email });
       setMessage(response.data.message);
       setMessageClass('text-pink-600');
 
@@ -47,7 +47,7 @@ export default function Footer() {
 
   const handleVerifyCode = async (code) => {
     try {
-      const response = await axios.post('https://bakebelle-website.onrender.com/api/subscribe/verify', {
+      const response = await axios.post('https://backend-thejaganbowl.onrender.com/api/subscribe/verify', {
         email,
         code
       });

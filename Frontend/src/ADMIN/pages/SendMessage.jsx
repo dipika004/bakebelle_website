@@ -23,7 +23,7 @@ const SendMessage = () => {
     }
 
     try {
-      const response = await axios.post('https://bakebelle-website.onrender.com/api/send-message', formData, {
+      const response = await axios.post('https://backend-thejaganbowl.onrender.com/api/send-message', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

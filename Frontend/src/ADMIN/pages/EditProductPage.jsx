@@ -33,7 +33,7 @@ const EditProductPage = ({
       });
 
       const res = await axios.put(
-        `https://bakebelle-website.onrender.com/api/products/${id}`,
+        `https://backend-thejaganbowl.onrender.com/api/products/${id}`,
         formToSend,
         {
           headers: { 'Content-Type': 'multipart/form-data' },

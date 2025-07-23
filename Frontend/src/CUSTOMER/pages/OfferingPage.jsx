@@ -10,7 +10,7 @@ const OfferingPage = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        `https://bakebelle-website.onrender.com/api/products?category=${slug.toLowerCase()}`
+        `https://backend-thejaganbowl.onrender.com/api/products?category=${slug.toLowerCase()}`
       );
       console.log('Fetched products:', response.data);
       setProducts(response.data);
