@@ -11,7 +11,7 @@ const BannerManagement = () => {
 
   const fetchBanners = async () => {
     try {
-      const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/banner');
+      const response = await axios.get('https://bakebelle-website.onrender.com/api/banner');
       setBanners(response.data);
 
       const initialNewBanners = {};
@@ -52,7 +52,7 @@ const BannerManagement = () => {
   formData.append('title', '');           // Optional: Pass a title if needed
 
   try {
-    await axios.put(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`, formData, {
+    await axios.put(`https://bakebelle-website.onrender.com/api/banner/${id}`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 
@@ -68,7 +68,7 @@ const BannerManagement = () => {
     if (!window.confirm("Are you sure you want to delete this banner?")) return;
 
     try {
-      await axios.delete(`https://backend-thejaganbowl.onrender.com/api/banner/${id}`);
+      await axios.delete(`https://bakebelle-website.onrender.com/api/banner/${id}`);
       alert('Banner deleted successfully!');
       fetchBanners();
     } catch (error) {

@@ -11,7 +11,7 @@ const BannerSlider = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await axios.get('https://backend-thejaganbowl.onrender.com/api/banner');
+        const response = await axios.get('https://bakebelle-website.onrender.com/api/banner');
         const allBanners = response.data || [];
 
         setLargeBanners(allBanners.filter(b => b.device === 'large'));

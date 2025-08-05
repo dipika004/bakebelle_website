@@ -8,7 +8,7 @@ const OfferingPage = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`https://backend-thejaganbowl.onrender.com/api/products?category=${slug.toLowerCase()}`);
+      const response = await axios.get(`https://bakebelle-website.onrender.com/api/products?category=${slug.toLowerCase()}`);
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products:', error);

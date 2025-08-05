@@ -13,7 +13,7 @@ const AddOffering = () => {
     e.preventDefault();
 
     try {
-      await axios.post('https://backend-thejaganbowl.onrender.com/api/offerings', { name: newOffering });
+      await axios.post('https://bakebelle-website.onrender.com/api/offerings', { name: newOffering });
       alert('Offering added successfully!');
       setNewOffering('');
     } catch (error) {

@@ -21,7 +21,7 @@ const ContactFormPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://backend-thejaganbowl.onrender.com/api/contact', formData);
+      await axios.post('https://bakebelle-website.onrender.com/api/contact', formData);
       alert('Message sent successfully!');
       setResponseType('success');
       setFormData({
