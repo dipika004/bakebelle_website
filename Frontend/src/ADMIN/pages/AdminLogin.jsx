@@ -30,7 +30,7 @@ sessionStorage.setItem("isAdmin", JSON.stringify({ value: true, expiry }));
             <label className="block text-gray-600 mb-1">Username</label>
             <input
               type="text"
-              placeholder="Enter username"
+              placeholder="Enter admin"
               value={credentials.username}
               onChange={e => setCredentials({ ...credentials, username: e.target.value })}
               required
@@ -41,7 +41,7 @@ sessionStorage.setItem("isAdmin", JSON.stringify({ value: true, expiry }));
             <label className="block text-gray-600 mb-1">Password</label>
             <input
               type="password"
-              placeholder="Enter password"
+              placeholder="Enter 123"
               value={credentials.password}
               onChange={e => setCredentials({ ...credentials, password: e.target.value })}
               required
